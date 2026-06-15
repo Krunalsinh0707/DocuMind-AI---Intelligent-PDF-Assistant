@@ -1,0 +1,730 @@
+[2026-06-09 00:24:41] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-09 00:24:41] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-09 00:24:55] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-09 00:24:55] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-09 00:25:04] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-09 00:25:04] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-09 00:38:32] INFO [rag_chatbot:embedding_service.py:75] - Initializing Gemini Embeddings with model: models/embedding-001
+[2026-06-09 00:38:34] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-09 00:38:34] INFO [rag_chatbot:upload.py:45] - Processing upload for file: 400 Days by Chetan Bhagat.pdf
+[2026-06-09 00:38:34] INFO [rag_chatbot:file_service.py:63] - Successfully saved uploaded file to: uploads\be3d18a8-29ae-4add-9c97-d2e8f293a8dd_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-09 00:38:34] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-09 00:38:34] INFO [rag_chatbot:pdf_loader.py:45] - Extracting text from be3d18a8-29ae-4add-9c97-d2e8f293a8dd_400_Days_by_Chetan_Bhagat.pdf (379 pages)...
+[2026-06-09 00:39:05] INFO [rag_chatbot:pdf_loader.py:69] - Successfully extracted text from 374 pages of be3d18a8-29ae-4add-9c97-d2e8f293a8dd_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-09 00:39:05] INFO [rag_chatbot:logger.py:42] - Finished extract_text_with_metadata in 31.2523 seconds.
+[2026-06-09 00:39:05] INFO [rag_chatbot:text_splitter.py:49] - Split 374 pages into 648 text chunks.
+[2026-06-09 00:39:05] INFO [rag_chatbot:logger.py:38] - Starting add_documents...
+[2026-06-09 00:39:05] INFO [rag_chatbot:vector_store.py:61] - Creating a new FAISS index...
+[2026-06-09 00:39:06] ERROR [rag_chatbot:vector_store.py:76] - Error adding documents to FAISS: Error embedding content (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/embedding-001 is not found for API version v1beta, or is not supported for embedContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+[2026-06-09 00:39:06] ERROR [rag_chatbot:logger.py:46] - Failed add_documents in 0.4892 seconds. Error: 500: Failed to generate embeddings. Reason: Error embedding content (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/embedding-001 is not found for API version v1beta, or is not supported for embedContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}. Suggested Fix: Check your API key or model availability.
+[2026-06-09 00:39:06] ERROR [rag_chatbot:upload.py:82] - HTTP error processing file 400 Days by Chetan Bhagat.pdf: Failed to generate embeddings. Reason: Error embedding content (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/embedding-001 is not found for API version v1beta, or is not supported for embedContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}. Suggested Fix: Check your API key or model availability.
+[2026-06-09 00:39:06] INFO [rag_chatbot:file_service.py:80] - Deleted file from disk: uploads\be3d18a8-29ae-4add-9c97-d2e8f293a8dd_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-09 00:40:19] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-09 00:40:19] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-09 00:40:50] INFO [rag_chatbot:embedding_service.py:75] - Initializing Gemini Embeddings with model: models/text-embedding-004
+[2026-06-09 00:40:52] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-09 00:40:52] INFO [rag_chatbot:upload.py:45] - Processing upload for file: 400 Days by Chetan Bhagat.pdf
+[2026-06-09 00:40:52] INFO [rag_chatbot:file_service.py:63] - Successfully saved uploaded file to: uploads\7064b3af-a617-4b63-a1cb-baefbc4ccbaf_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-09 00:40:52] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-09 00:40:52] INFO [rag_chatbot:pdf_loader.py:45] - Extracting text from 7064b3af-a617-4b63-a1cb-baefbc4ccbaf_400_Days_by_Chetan_Bhagat.pdf (379 pages)...
+[2026-06-09 00:41:23] INFO [rag_chatbot:pdf_loader.py:69] - Successfully extracted text from 374 pages of 7064b3af-a617-4b63-a1cb-baefbc4ccbaf_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-09 00:41:23] INFO [rag_chatbot:logger.py:42] - Finished extract_text_with_metadata in 31.4272 seconds.
+[2026-06-09 00:41:23] INFO [rag_chatbot:text_splitter.py:49] - Split 374 pages into 648 text chunks.
+[2026-06-09 00:41:23] INFO [rag_chatbot:logger.py:38] - Starting add_documents...
+[2026-06-09 00:41:23] INFO [rag_chatbot:vector_store.py:61] - Creating a new FAISS index...
+[2026-06-09 00:41:24] ERROR [rag_chatbot:vector_store.py:76] - Error adding documents to FAISS: Error embedding content (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+[2026-06-09 00:41:24] ERROR [rag_chatbot:logger.py:46] - Failed add_documents in 0.8944 seconds. Error: 500: Failed to generate embeddings. Reason: Error embedding content (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}. Suggested Fix: Check your API key or model availability.
+[2026-06-09 00:41:24] ERROR [rag_chatbot:upload.py:82] - HTTP error processing file 400 Days by Chetan Bhagat.pdf: Failed to generate embeddings. Reason: Error embedding content (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}. Suggested Fix: Check your API key or model availability.
+[2026-06-09 00:41:24] INFO [rag_chatbot:file_service.py:80] - Deleted file from disk: uploads\7064b3af-a617-4b63-a1cb-baefbc4ccbaf_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-09 00:44:39] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-09 00:44:39] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-09 00:44:56] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-09 00:44:56] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-09 00:45:30] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-09 00:45:30] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-09 00:45:46] INFO [rag_chatbot:embedding_service.py:47] - Checking model availability for Gemini Embeddings:
+  Requested Model: models/gemini-embedding-2
+  API Key Loaded: Yes
+  SDK version (google-genai): 2.8.0
+  SDK version (langchain-google-genai): 4.2.4
+[2026-06-09 00:45:51] INFO [rag_chatbot:embedding_service.py:68] - Available embedding models: ['models/gemini-embedding-001', 'models/gemini-embedding-2-preview', 'models/gemini-embedding-2']
+[2026-06-09 00:45:51] INFO [rag_chatbot:embedding_service.py:79] - Target model 'models/gemini-embedding-2' successfully validated and found as 'models/gemini-embedding-2'.
+[2026-06-09 00:45:51] INFO [rag_chatbot:embedding_service.py:171] - Initializing Google Generative AI Embeddings:
+  Model Name: models/gemini-embedding-2
+  API Version: v1beta
+[2026-06-09 00:46:57] INFO [rag_chatbot:embedding_service.py:47] - Checking model availability for Gemini Embeddings:
+  Requested Model: models/gemini-embedding-2
+  API Key Loaded: Yes
+  SDK version (google-genai): 2.8.0
+  SDK version (langchain-google-genai): 4.2.4
+[2026-06-09 00:47:03] INFO [rag_chatbot:embedding_service.py:68] - Available embedding models: ['models/gemini-embedding-001', 'models/gemini-embedding-2-preview', 'models/gemini-embedding-2']
+[2026-06-09 00:47:03] INFO [rag_chatbot:embedding_service.py:79] - Target model 'models/gemini-embedding-2' successfully validated and found as 'models/gemini-embedding-2'.
+[2026-06-09 00:47:03] INFO [rag_chatbot:embedding_service.py:171] - Initializing Google Generative AI Embeddings:
+  Model Name: models/gemini-embedding-2
+  API Version: v1beta
+[2026-06-09 00:47:05] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-09 00:47:05] INFO [rag_chatbot:upload.py:45] - Processing upload for file: 400 Days by Chetan Bhagat.pdf
+[2026-06-09 00:47:05] INFO [rag_chatbot:file_service.py:63] - Successfully saved uploaded file to: uploads\8298112a-1427-4883-8426-2b7b3fd79c26_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-09 00:47:05] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-09 00:47:05] INFO [rag_chatbot:pdf_loader.py:45] - Extracting text from 8298112a-1427-4883-8426-2b7b3fd79c26_400_Days_by_Chetan_Bhagat.pdf (379 pages)...
+[2026-06-09 00:47:37] INFO [rag_chatbot:pdf_loader.py:69] - Successfully extracted text from 374 pages of 8298112a-1427-4883-8426-2b7b3fd79c26_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-09 00:47:37] INFO [rag_chatbot:logger.py:42] - Finished extract_text_with_metadata in 31.7702 seconds.
+[2026-06-09 00:47:37] INFO [rag_chatbot:text_splitter.py:49] - Split 374 pages into 648 text chunks.
+[2026-06-09 00:47:37] INFO [rag_chatbot:logger.py:38] - Starting add_documents...
+[2026-06-09 00:47:37] INFO [rag_chatbot:vector_store.py:61] - Creating a new FAISS index...
+[2026-06-09 00:47:44] ERROR [rag_chatbot:vector_store.py:76] - Error adding documents to FAISS: Error embedding content (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. ', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}]}}
+[2026-06-09 00:47:44] ERROR [rag_chatbot:logger.py:46] - Failed add_documents in 7.5238 seconds. Error: 500: Failed to generate embeddings. Reason: Error embedding content (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. ', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}]}}. Suggested Fix: Check your API key or model availability.
+[2026-06-09 00:47:44] ERROR [rag_chatbot:upload.py:82] - HTTP error processing file 400 Days by Chetan Bhagat.pdf: Failed to generate embeddings. Reason: Error embedding content (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. ', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}]}}. Suggested Fix: Check your API key or model availability.
+[2026-06-09 00:47:44] INFO [rag_chatbot:file_service.py:80] - Deleted file from disk: uploads\8298112a-1427-4883-8426-2b7b3fd79c26_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-09 00:56:04] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-09 00:56:04] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-09 00:56:22] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-09 00:56:22] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 09:53:32] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 09:53:32] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:06:44] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 10:06:44] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:07:09] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 10:07:09] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:07:34] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 10:07:34] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:09:56] WARNING [rag_chatbot:file_service.py:35] - File validation failed: MIME type  not allowed.
+[2026-06-11 10:10:11] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 10:10:11] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:10:49] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 10:10:49] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:11:30] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 10:11:30] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:11:49] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\test_upload_id_456_test_upload_verify.pdf
+[2026-06-11 10:11:49] INFO [rag_chatbot:file_service.py:89] - Deleted file from disk: uploads\test_upload_id_456_test_upload_verify.pdf
+[2026-06-11 10:12:26] INFO [rag_chatbot:embedding_service.py:141] - Initializing HuggingFace Local Embeddings:
+  Model Name: sentence-transformers/all-MiniLM-L6-v2
+  SDK version (sentence-transformers): Unknown
+[2026-06-11 10:12:26] ERROR [rag_chatbot:embedding_service.py:151] - Error initializing HuggingFace Embeddings: Could not import sentence_transformers python package. Please install it with `pip install sentence-transformers`.
+[2026-06-11 10:12:26] ERROR [rag_chatbot:embedding_service.py:153] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\langchain_community\embeddings\huggingface.py", line 84, in __init__
+    import sentence_transformers
+ModuleNotFoundError: No module named 'sentence_transformers'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\services\embedding_service.py", line 147, in get_embeddings
+    self._embeddings_instance = HuggingFaceEmbeddings(
+                                ~~~~~~~~~~~~~~~~~~~~~^
+        model_name=settings.HUGGINGFACE_EMBEDDING_MODEL
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\langchain_core\_api\deprecation.py", line 258, in warn_if_direct_instance
+    return wrapped(self, *args, **kwargs)
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\langchain_community\embeddings\huggingface.py", line 87, in __init__
+    raise ImportError(
+    ...<2 lines>...
+    ) from exc
+ImportError: Could not import sentence_transformers python package. Please install it with `pip install sentence-transformers`.
+
+[2026-06-11 10:16:55] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 10:16:55] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:19:09] INFO [rag_chatbot:embedding_service.py:141] - Initializing HuggingFace Local Embeddings:
+  Model Name: sentence-transformers/all-MiniLM-L6-v2
+  SDK version (sentence-transformers): Unknown
+[2026-06-11 10:21:10] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:21:10] WARNING [rag_chatbot:file_service.py:26] - File validation failed: File type txt not allowed.
+[2026-06-11 10:21:12] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:21:15] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:21:15] WARNING [rag_chatbot:file_service.py:49] - File validation failed: File size 101.00MB exceeds limit of 10MB.
+[2026-06-11 10:21:39] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:21:39] WARNING [rag_chatbot:file_service.py:26] - File validation failed: File type txt not allowed.
+[2026-06-11 10:21:41] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:21:44] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:21:44] WARNING [rag_chatbot:file_service.py:49] - File validation failed: File size 101.00MB exceeds limit of 10MB.
+[2026-06-11 10:22:04] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 10:22:04] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:22:44] INFO [rag_chatbot:embedding_service.py:141] - Initializing HuggingFace Local Embeddings:
+  Model Name: sentence-transformers/all-MiniLM-L6-v2
+  SDK version (sentence-transformers): 5.5.1
+[2026-06-11 10:22:53] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:22:53] WARNING [rag_chatbot:file_service.py:26] - File validation failed: File type txt not allowed.
+[2026-06-11 10:22:55] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:22:58] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:22:58] WARNING [rag_chatbot:file_service.py:49] - File validation failed: File size 101.00MB exceeds limit of 100MB.
+[2026-06-11 10:23:00] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:23:00] INFO [rag_chatbot:upload.py:60] - Processing upload for file: small_sync.pdf
+[2026-06-11 10:23:00] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\5a08b5dc-0770-4946-af02-4f5eb640d276_small_sync.pdf
+[2026-06-11 10:23:00] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 10:23:00] ERROR [rag_chatbot:pdf_loader.py:75] - Error reading PDF 5a08b5dc-0770-4946-af02-4f5eb640d276_small_sync.pdf: startxref not found
+[2026-06-11 10:23:00] ERROR [rag_chatbot:logger.py:46] - Failed extract_text_with_metadata in 0.0457 seconds. Error: 400: Failed to process the PDF. The file may be empty or corrupted.
+[2026-06-11 10:23:00] ERROR [rag_chatbot:upload.py:125] - HTTP error processing file small_sync.pdf: Failed to process the PDF. The file may be empty or corrupted.
+[2026-06-11 10:23:00] INFO [rag_chatbot:file_service.py:89] - Deleted file from disk: uploads\5a08b5dc-0770-4946-af02-4f5eb640d276_small_sync.pdf
+[2026-06-11 10:23:02] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:23:02] INFO [rag_chatbot:upload.py:60] - Processing upload for file: large_async.pdf
+[2026-06-11 10:23:02] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\3ceda68a-cd16-4871-88e0-b5b27620e9ec_large_async.pdf
+[2026-06-11 10:23:02] INFO [rag_chatbot:background_processor.py:26] - Background process started for job job_3ceda68a-cd16-4871-88e0-b5b27620e9ec, file: large_async.pdf
+[2026-06-11 10:23:02] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 10:23:04] ERROR [rag_chatbot:pdf_loader.py:75] - Error reading PDF 3ceda68a-cd16-4871-88e0-b5b27620e9ec_large_async.pdf: Stream has ended unexpectedly
+[2026-06-11 10:23:04] ERROR [rag_chatbot:logger.py:46] - Failed extract_text_with_metadata in 1.8939 seconds. Error: 400: Failed to process the PDF. The file may be empty or corrupted.
+[2026-06-11 10:23:04] ERROR [rag_chatbot:background_processor.py:101] - Error in background process for job job_3ceda68a-cd16-4871-88e0-b5b27620e9ec: 400: Failed to process the PDF. The file may be empty or corrupted.
+Traceback (most recent call last):
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\services\pdf_loader.py", line 26, in extract_text_with_metadata
+    reader = PdfReader(str(file_path))
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_reader.py", line 151, in __init__
+    self._initialize_stream(stream)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_reader.py", line 175, in _initialize_stream
+    self.read(stream)
+    ~~~~~~~~~^^^^^^^^
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_reader.py", line 684, in read
+    self._find_eof_marker(stream)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_reader.py", line 797, in _find_eof_marker
+    line = read_previous_line(stream)
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_utils.py", line 330, in read_previous_line
+    raise PdfStreamError(STREAM_TRUNCATED_PREMATURELY)
+pypdf.errors.PdfStreamError: Stream has ended unexpectedly
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\services\background_processor.py", line 37, in background_process_file
+    pages_data = await loop.run_in_executor(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\morik\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\utils\logger.py", line 47, in wrapper
+    raise e
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\utils\logger.py", line 40, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\services\pdf_loader.py", line 76, in extract_text_with_metadata
+    raise HTTPException(
+    ...<2 lines>...
+    )
+fastapi.exceptions.HTTPException: 400: Failed to process the PDF. The file may be empty or corrupted.
+[2026-06-11 10:24:00] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:24:00] INFO [rag_chatbot:upload.py:60] - Processing upload for file: class-12-physics-textbook-pdf.pdf
+[2026-06-11 10:24:00] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\fc7c840f-96aa-49b0-a804-c5e621ceed23_class-12-physics-textbook-pdf.pdf
+[2026-06-11 10:24:00] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 10:24:01] WARNING [rag_chatbot:pdf_loader.py:30] - Failed to process fc7c840f-96aa-49b0-a804-c5e621ceed23_class-12-physics-textbook-pdf.pdf: PDF is encrypted.
+[2026-06-11 10:24:01] ERROR [rag_chatbot:logger.py:46] - Failed extract_text_with_metadata in 0.5822 seconds. Error: 400: Encrypted PDFs are not supported. Please remove encryption and try again.
+[2026-06-11 10:24:01] ERROR [rag_chatbot:upload.py:125] - HTTP error processing file class-12-physics-textbook-pdf.pdf: Encrypted PDFs are not supported. Please remove encryption and try again.
+[2026-06-11 10:24:01] INFO [rag_chatbot:file_service.py:89] - Deleted file from disk: uploads\fc7c840f-96aa-49b0-a804-c5e621ceed23_class-12-physics-textbook-pdf.pdf
+[2026-06-11 10:28:08] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 10:28:08] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:29:50] ERROR [rag_chatbot:pdf_loader.py:43] - PDF validation failed: corrupted.pdf is corrupted or invalid. Details: Stream has ended unexpectedly
+[2026-06-11 10:29:50] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 10:29:50] INFO [rag_chatbot:pdf_loader.py:92] - PDF pages detected: 1
+[2026-06-11 10:29:50] INFO [rag_chatbot:pdf_loader.py:103] - Extracting text from standard.pdf (1 pages)...
+[2026-06-11 10:29:50] WARNING [rag_chatbot:pdf_loader.py:121] - No text extracted from page 1 of standard.pdf (scanned page or empty).
+[2026-06-11 10:29:50] ERROR [rag_chatbot:pdf_loader.py:143] - PDF validation failed: No extractable text detected in standard.pdf. (Scanned PDF)
+[2026-06-11 10:29:50] ERROR [rag_chatbot:logger.py:46] - Failed extract_text_with_metadata in 0.0012 seconds. Error: 400: Scanned PDF detected. This document does not contain searchably indexed text. Please perform OCR before uploading.
+[2026-06-11 10:29:50] INFO [rag_chatbot:pdf_loader.py:57] - PDF restricted.pdf is encrypted. Attempting empty password decryption bypass...
+[2026-06-11 10:29:50] INFO [rag_chatbot:pdf_loader.py:65] - Bypassed permission-restriction encryption for restricted.pdf successfully.
+[2026-06-11 10:29:50] ERROR [rag_chatbot:pdf_loader.py:43] - PDF validation failed: locked.pdf is corrupted or invalid. Details: File has not been decrypted
+[2026-06-11 10:30:05] ERROR [rag_chatbot:pdf_loader.py:66] - PDF validation failed: corrupted.pdf is corrupted or invalid. Details: Stream has ended unexpectedly
+[2026-06-11 10:30:05] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 10:30:05] INFO [rag_chatbot:pdf_loader.py:95] - PDF pages detected: 1
+[2026-06-11 10:30:05] INFO [rag_chatbot:pdf_loader.py:106] - Extracting text from standard.pdf (1 pages)...
+[2026-06-11 10:30:05] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 1 of standard.pdf (scanned page or empty).
+[2026-06-11 10:30:05] ERROR [rag_chatbot:pdf_loader.py:146] - PDF validation failed: No extractable text detected in standard.pdf. (Scanned PDF)
+[2026-06-11 10:30:05] ERROR [rag_chatbot:logger.py:46] - Failed extract_text_with_metadata in 0.0012 seconds. Error: 400: Scanned PDF detected. This document does not contain searchably indexed text. Please perform OCR before uploading.
+[2026-06-11 10:30:05] INFO [rag_chatbot:pdf_loader.py:41] - PDF restricted.pdf is encrypted. Attempting empty password decryption bypass...
+[2026-06-11 10:30:05] INFO [rag_chatbot:pdf_loader.py:41] - PDF locked.pdf is encrypted. Attempting empty password decryption bypass...
+[2026-06-11 10:30:05] ERROR [rag_chatbot:pdf_loader.py:48] - PDF validation failed: locked.pdf is password protected. Details: File has not been decrypted
+[2026-06-11 10:30:11] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 10:30:11] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:31:49] INFO [rag_chatbot:embedding_service.py:141] - Initializing HuggingFace Local Embeddings:
+  Model Name: sentence-transformers/all-MiniLM-L6-v2
+  SDK version (sentence-transformers): 5.5.1
+[2026-06-11 10:32:00] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:32:00] WARNING [rag_chatbot:file_service.py:26] - File validation failed: File type txt not allowed.
+[2026-06-11 10:32:02] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:32:04] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:32:04] WARNING [rag_chatbot:file_service.py:49] - File validation failed: File size 101.00MB exceeds limit of 100MB.
+[2026-06-11 10:32:06] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:32:06] INFO [rag_chatbot:upload.py:60] - Processing upload for file: small_sync.pdf
+[2026-06-11 10:32:06] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\636bdc2a-b936-4288-9499-4453f9d22c33_small_sync.pdf
+[2026-06-11 10:32:06] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 10:32:06] ERROR [rag_chatbot:pdf_loader.py:66] - PDF validation failed: 636bdc2a-b936-4288-9499-4453f9d22c33_small_sync.pdf is corrupted or invalid. Details: startxref not found
+[2026-06-11 10:32:06] ERROR [rag_chatbot:logger.py:46] - Failed extract_text_with_metadata in 0.0020 seconds. Error: 400: Corrupted PDF.
+[2026-06-11 10:32:06] ERROR [rag_chatbot:upload.py:125] - HTTP error processing file small_sync.pdf: Corrupted PDF.
+[2026-06-11 10:32:06] INFO [rag_chatbot:file_service.py:89] - Deleted file from disk: uploads\636bdc2a-b936-4288-9499-4453f9d22c33_small_sync.pdf
+[2026-06-11 10:32:09] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:32:09] INFO [rag_chatbot:upload.py:60] - Processing upload for file: large_async.pdf
+[2026-06-11 10:32:09] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\4514040d-d22e-4397-bc69-d3a881875ba9_large_async.pdf
+[2026-06-11 10:32:09] INFO [rag_chatbot:background_processor.py:26] - Background process started for job job_4514040d-d22e-4397-bc69-d3a881875ba9, file: large_async.pdf
+[2026-06-11 10:32:09] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 10:32:10] ERROR [rag_chatbot:pdf_loader.py:66] - PDF validation failed: 4514040d-d22e-4397-bc69-d3a881875ba9_large_async.pdf is corrupted or invalid. Details: Stream has ended unexpectedly
+[2026-06-11 10:32:10] ERROR [rag_chatbot:logger.py:46] - Failed extract_text_with_metadata in 1.6377 seconds. Error: 400: Corrupted PDF.
+[2026-06-11 10:32:10] ERROR [rag_chatbot:background_processor.py:101] - Error in background process for job job_4514040d-d22e-4397-bc69-d3a881875ba9: 400: Corrupted PDF.
+Traceback (most recent call last):
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\services\pdf_loader.py", line 37, in validate_pdf
+    reader = PdfReader(str(file_path))
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_reader.py", line 151, in __init__
+    self._initialize_stream(stream)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_reader.py", line 175, in _initialize_stream
+    self.read(stream)
+    ~~~~~~~~~^^^^^^^^
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_reader.py", line 684, in read
+    self._find_eof_marker(stream)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_reader.py", line 797, in _find_eof_marker
+    line = read_previous_line(stream)
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_utils.py", line 330, in read_previous_line
+    raise PdfStreamError(STREAM_TRUNCATED_PREMATURELY)
+pypdf.errors.PdfStreamError: Stream has ended unexpectedly
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\services\background_processor.py", line 37, in background_process_file
+    pages_data = await loop.run_in_executor(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\morik\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\utils\logger.py", line 47, in wrapper
+    raise e
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\utils\logger.py", line 40, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\services\pdf_loader.py", line 91, in extract_text_with_metadata
+    reader = self.validate_pdf(file_path)
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\services\pdf_loader.py", line 67, in validate_pdf
+    raise HTTPException(
+    ...<2 lines>...
+    )
+fastapi.exceptions.HTTPException: 400: Corrupted PDF.
+[2026-06-11 10:33:59] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:33:59] INFO [rag_chatbot:upload.py:60] - Processing upload for file: class-12-physics-textbook-pdf.pdf
+[2026-06-11 10:33:59] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\0b32ee5d-a5ac-4e8e-81bc-7b5663bef43e_class-12-physics-textbook-pdf.pdf
+[2026-06-11 10:33:59] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 10:34:00] INFO [rag_chatbot:pdf_loader.py:41] - PDF 0b32ee5d-a5ac-4e8e-81bc-7b5663bef43e_class-12-physics-textbook-pdf.pdf is encrypted. Attempting empty password decryption bypass...
+[2026-06-11 10:34:00] INFO [rag_chatbot:pdf_loader.py:95] - PDF pages detected: 374
+[2026-06-11 10:34:00] INFO [rag_chatbot:pdf_loader.py:106] - Extracting text from 0b32ee5d-a5ac-4e8e-81bc-7b5663bef43e_class-12-physics-textbook-pdf.pdf (374 pages)...
+[2026-06-11 10:34:01] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 1 of 0b32ee5d-a5ac-4e8e-81bc-7b5663bef43e_class-12-physics-textbook-pdf.pdf (scanned page or empty).
+[2026-06-11 10:34:51] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 374 of 0b32ee5d-a5ac-4e8e-81bc-7b5663bef43e_class-12-physics-textbook-pdf.pdf (scanned page or empty).
+[2026-06-11 10:34:51] INFO [rag_chatbot:pdf_loader.py:132] - Text extraction completed. Extracted text from 372 / 374 pages.
+[2026-06-11 10:34:51] INFO [rag_chatbot:logger.py:42] - Finished extract_text_with_metadata in 51.5954 seconds.
+[2026-06-11 10:34:51] INFO [rag_chatbot:text_splitter.py:49] - Split 372 pages into 741 text chunks.
+[2026-06-11 10:34:51] INFO [rag_chatbot:logger.py:38] - Starting add_documents...
+[2026-06-11 10:34:51] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 1/8 (100 chunks)...
+[2026-06-11 10:34:51] INFO [rag_chatbot:vector_store.py:87] - Creating a new FAISS index with first batch...
+[2026-06-11 10:35:01] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 2/8 (100 chunks)...
+[2026-06-11 10:35:01] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:35:05] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 3/8 (100 chunks)...
+[2026-06-11 10:35:05] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:35:09] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 4/8 (100 chunks)...
+[2026-06-11 10:35:09] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:35:13] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 5/8 (100 chunks)...
+[2026-06-11 10:35:13] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:35:17] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 6/8 (100 chunks)...
+[2026-06-11 10:35:17] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:35:21] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 7/8 (100 chunks)...
+[2026-06-11 10:35:21] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:35:26] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 8/8 (41 chunks)...
+[2026-06-11 10:35:26] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 41 chunks to existing FAISS index...
+[2026-06-11 10:35:27] INFO [rag_chatbot:vector_store.py:143] - FAISS index saved to local disk.
+[2026-06-11 10:35:27] INFO [rag_chatbot:vector_store.py:99] - Successfully added and saved 741 chunks to FAISS index in batches.
+[2026-06-11 10:35:27] INFO [rag_chatbot:logger.py:42] - Finished add_documents in 36.2059 seconds.
+[2026-06-11 10:35:27] INFO [rag_chatbot:database.py:95] - Saved metadata for document: class-12-physics-textbook-pdf.pdf (ID: 0b32ee5d-a5ac-4e8e-81bc-7b5663bef43e)
+[2026-06-11 10:35:28] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:35:28] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:35:28] INFO [rag_chatbot:upload.py:60] - Processing upload for file: class-12-physics-textbook-pdf.pdf
+[2026-06-11 10:35:28] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\f6d6ef3d-669e-425c-9a63-a52777026ce3_class-12-physics-textbook-pdf.pdf
+[2026-06-11 10:35:28] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 10:35:28] INFO [rag_chatbot:pdf_loader.py:41] - PDF f6d6ef3d-669e-425c-9a63-a52777026ce3_class-12-physics-textbook-pdf.pdf is encrypted. Attempting empty password decryption bypass...
+[2026-06-11 10:35:28] INFO [rag_chatbot:pdf_loader.py:95] - PDF pages detected: 374
+[2026-06-11 10:35:28] INFO [rag_chatbot:pdf_loader.py:106] - Extracting text from f6d6ef3d-669e-425c-9a63-a52777026ce3_class-12-physics-textbook-pdf.pdf (374 pages)...
+[2026-06-11 10:35:29] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 1 of f6d6ef3d-669e-425c-9a63-a52777026ce3_class-12-physics-textbook-pdf.pdf (scanned page or empty).
+[2026-06-11 10:36:18] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 374 of f6d6ef3d-669e-425c-9a63-a52777026ce3_class-12-physics-textbook-pdf.pdf (scanned page or empty).
+[2026-06-11 10:36:18] INFO [rag_chatbot:pdf_loader.py:132] - Text extraction completed. Extracted text from 372 / 374 pages.
+[2026-06-11 10:36:18] INFO [rag_chatbot:logger.py:42] - Finished extract_text_with_metadata in 50.5355 seconds.
+[2026-06-11 10:36:18] INFO [rag_chatbot:text_splitter.py:49] - Split 372 pages into 741 text chunks.
+[2026-06-11 10:36:18] INFO [rag_chatbot:logger.py:38] - Starting add_documents...
+[2026-06-11 10:36:18] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 1/8 (100 chunks)...
+[2026-06-11 10:36:18] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:36:23] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 2/8 (100 chunks)...
+[2026-06-11 10:36:23] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:36:27] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 3/8 (100 chunks)...
+[2026-06-11 10:36:27] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:36:33] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 4/8 (100 chunks)...
+[2026-06-11 10:36:33] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:36:38] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 5/8 (100 chunks)...
+[2026-06-11 10:36:38] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:36:42] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 6/8 (100 chunks)...
+[2026-06-11 10:36:42] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:36:46] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 7/8 (100 chunks)...
+[2026-06-11 10:36:46] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:36:50] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 8/8 (41 chunks)...
+[2026-06-11 10:36:50] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 41 chunks to existing FAISS index...
+[2026-06-11 10:36:52] INFO [rag_chatbot:vector_store.py:143] - FAISS index saved to local disk.
+[2026-06-11 10:36:52] INFO [rag_chatbot:vector_store.py:99] - Successfully added and saved 741 chunks to FAISS index in batches.
+[2026-06-11 10:36:52] INFO [rag_chatbot:logger.py:42] - Finished add_documents in 34.0608 seconds.
+[2026-06-11 10:36:52] INFO [rag_chatbot:database.py:95] - Saved metadata for document: class-12-physics-textbook-pdf.pdf (ID: f6d6ef3d-669e-425c-9a63-a52777026ce3)
+[2026-06-11 10:36:53] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:36:53] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:36:53] INFO [rag_chatbot:upload.py:60] - Processing upload for file: class-12-physics-textbook-pdf.pdf
+[2026-06-11 10:36:53] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\e54ad6a3-82a6-4dcb-a73c-f4408c829848_class-12-physics-textbook-pdf.pdf
+[2026-06-11 10:36:53] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 10:36:53] INFO [rag_chatbot:pdf_loader.py:41] - PDF e54ad6a3-82a6-4dcb-a73c-f4408c829848_class-12-physics-textbook-pdf.pdf is encrypted. Attempting empty password decryption bypass...
+[2026-06-11 10:36:53] INFO [rag_chatbot:pdf_loader.py:95] - PDF pages detected: 374
+[2026-06-11 10:36:53] INFO [rag_chatbot:pdf_loader.py:106] - Extracting text from e54ad6a3-82a6-4dcb-a73c-f4408c829848_class-12-physics-textbook-pdf.pdf (374 pages)...
+[2026-06-11 10:36:54] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 1 of e54ad6a3-82a6-4dcb-a73c-f4408c829848_class-12-physics-textbook-pdf.pdf (scanned page or empty).
+[2026-06-11 10:37:20] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 374 of e54ad6a3-82a6-4dcb-a73c-f4408c829848_class-12-physics-textbook-pdf.pdf (scanned page or empty).
+[2026-06-11 10:37:20] INFO [rag_chatbot:pdf_loader.py:132] - Text extraction completed. Extracted text from 372 / 374 pages.
+[2026-06-11 10:37:20] INFO [rag_chatbot:logger.py:42] - Finished extract_text_with_metadata in 27.0536 seconds.
+[2026-06-11 10:37:20] INFO [rag_chatbot:text_splitter.py:49] - Split 372 pages into 741 text chunks.
+[2026-06-11 10:37:20] INFO [rag_chatbot:logger.py:38] - Starting add_documents...
+[2026-06-11 10:37:20] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 1/8 (100 chunks)...
+[2026-06-11 10:37:20] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:37:24] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 2/8 (100 chunks)...
+[2026-06-11 10:37:24] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:37:29] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 3/8 (100 chunks)...
+[2026-06-11 10:37:29] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:37:33] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 4/8 (100 chunks)...
+[2026-06-11 10:37:33] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:37:37] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 5/8 (100 chunks)...
+[2026-06-11 10:37:37] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:37:42] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 6/8 (100 chunks)...
+[2026-06-11 10:37:42] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:37:46] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 7/8 (100 chunks)...
+[2026-06-11 10:37:46] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:37:50] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 8/8 (41 chunks)...
+[2026-06-11 10:37:50] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 41 chunks to existing FAISS index...
+[2026-06-11 10:37:52] INFO [rag_chatbot:vector_store.py:143] - FAISS index saved to local disk.
+[2026-06-11 10:37:52] INFO [rag_chatbot:vector_store.py:99] - Successfully added and saved 741 chunks to FAISS index in batches.
+[2026-06-11 10:37:52] INFO [rag_chatbot:logger.py:42] - Finished add_documents in 32.0887 seconds.
+[2026-06-11 10:37:52] INFO [rag_chatbot:database.py:95] - Saved metadata for document: class-12-physics-textbook-pdf.pdf (ID: e54ad6a3-82a6-4dcb-a73c-f4408c829848)
+[2026-06-11 10:38:25] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:38:25] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:38:29] INFO [rag_chatbot:llm_service.py:53] - Initializing Gemini Chat model: gemini-1.5-flash
+[2026-06-11 10:38:30] WARNING [rag_chatbot:main.py:69] - Request validation failed for /chat: 1 validation error:
+  {'type': 'missing', 'loc': ('body', 'question'), 'msg': 'Field required', 'input': {'query': 'give me summery from book', 'history': []}}
+
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\api\chat.py", line 8, in chat
+    POST /chat
+[2026-06-11 10:40:30] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:40:30] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:40:30] INFO [rag_chatbot:documents.py:67] - Initiating deletion for document: class-12-physics-textbook-pdf.pdf (ID: f6d6ef3d-669e-425c-9a63-a52777026ce3)
+[2026-06-11 10:40:30] INFO [rag_chatbot:logger.py:38] - Starting delete_document_chunks...
+[2026-06-11 10:40:30] INFO [rag_chatbot:vector_store.py:123] - Deleting 741 chunks from FAISS index...
+[2026-06-11 10:40:30] INFO [rag_chatbot:vector_store.py:143] - FAISS index saved to local disk.
+[2026-06-11 10:40:30] INFO [rag_chatbot:logger.py:42] - Finished delete_document_chunks in 0.0547 seconds.
+[2026-06-11 10:40:30] INFO [rag_chatbot:file_service.py:89] - Deleted file from disk: uploads\f6d6ef3d-669e-425c-9a63-a52777026ce3_class-12-physics-textbook-pdf.pdf
+[2026-06-11 10:40:30] INFO [rag_chatbot:database.py:103] - Deleted metadata for document ID: f6d6ef3d-669e-425c-9a63-a52777026ce3
+[2026-06-11 10:40:30] INFO [rag_chatbot:documents.py:85] - Successfully deleted document: class-12-physics-textbook-pdf.pdf (ID: f6d6ef3d-669e-425c-9a63-a52777026ce3)
+[2026-06-11 10:40:34] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:40:34] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:40:34] INFO [rag_chatbot:documents.py:67] - Initiating deletion for document: class-12-physics-textbook-pdf.pdf (ID: 0b32ee5d-a5ac-4e8e-81bc-7b5663bef43e)
+[2026-06-11 10:40:34] INFO [rag_chatbot:logger.py:38] - Starting delete_document_chunks...
+[2026-06-11 10:40:34] INFO [rag_chatbot:vector_store.py:123] - Deleting 741 chunks from FAISS index...
+[2026-06-11 10:40:34] INFO [rag_chatbot:vector_store.py:143] - FAISS index saved to local disk.
+[2026-06-11 10:40:34] INFO [rag_chatbot:logger.py:42] - Finished delete_document_chunks in 0.0229 seconds.
+[2026-06-11 10:40:34] INFO [rag_chatbot:file_service.py:89] - Deleted file from disk: uploads\0b32ee5d-a5ac-4e8e-81bc-7b5663bef43e_class-12-physics-textbook-pdf.pdf
+[2026-06-11 10:40:34] INFO [rag_chatbot:database.py:103] - Deleted metadata for document ID: 0b32ee5d-a5ac-4e8e-81bc-7b5663bef43e
+[2026-06-11 10:40:34] INFO [rag_chatbot:documents.py:85] - Successfully deleted document: class-12-physics-textbook-pdf.pdf (ID: 0b32ee5d-a5ac-4e8e-81bc-7b5663bef43e)
+[2026-06-11 10:41:45] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 10:41:45] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:41:45] INFO [rag_chatbot:embedding_service.py:141] - Initializing HuggingFace Local Embeddings:
+  Model Name: sentence-transformers/all-MiniLM-L6-v2
+  SDK version (sentence-transformers): 5.5.1
+[2026-06-11 10:41:55] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:41:56] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:41:56] WARNING [rag_chatbot:file_service.py:26] - File validation failed: File type txt not allowed.
+[2026-06-11 10:41:58] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:41:58] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:42:02] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:42:02] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:42:02] WARNING [rag_chatbot:file_service.py:49] - File validation failed: File size 101.00MB exceeds limit of 100MB.
+[2026-06-11 10:42:04] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:42:04] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:42:04] INFO [rag_chatbot:upload.py:60] - Processing upload for file: small_sync.pdf
+[2026-06-11 10:42:04] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\3f2514e5-0764-4b99-a2ba-bc7cb97ce4fc_small_sync.pdf
+[2026-06-11 10:42:04] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 10:42:04] ERROR [rag_chatbot:pdf_loader.py:66] - PDF validation failed: 3f2514e5-0764-4b99-a2ba-bc7cb97ce4fc_small_sync.pdf is corrupted or invalid. Details: startxref not found
+[2026-06-11 10:42:04] ERROR [rag_chatbot:logger.py:46] - Failed extract_text_with_metadata in 0.0020 seconds. Error: 400: Corrupted PDF.
+[2026-06-11 10:42:04] ERROR [rag_chatbot:upload.py:140] - HTTP error processing file small_sync.pdf: Corrupted PDF.
+[2026-06-11 10:42:04] INFO [rag_chatbot:file_service.py:89] - Deleted file from disk: uploads\3f2514e5-0764-4b99-a2ba-bc7cb97ce4fc_small_sync.pdf
+[2026-06-11 10:42:06] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:42:06] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:42:06] INFO [rag_chatbot:upload.py:60] - Processing upload for file: large_async.pdf
+[2026-06-11 10:42:06] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\ce4f442f-d676-4917-8d54-1f0d2c13ef93_large_async.pdf
+[2026-06-11 10:42:06] INFO [rag_chatbot:background_processor.py:26] - Background process started for job job_ce4f442f-d676-4917-8d54-1f0d2c13ef93, file: large_async.pdf
+[2026-06-11 10:42:06] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 10:42:09] ERROR [rag_chatbot:pdf_loader.py:66] - PDF validation failed: ce4f442f-d676-4917-8d54-1f0d2c13ef93_large_async.pdf is corrupted or invalid. Details: Stream has ended unexpectedly
+[2026-06-11 10:42:09] ERROR [rag_chatbot:logger.py:46] - Failed extract_text_with_metadata in 3.0573 seconds. Error: 400: Corrupted PDF.
+[2026-06-11 10:42:09] ERROR [rag_chatbot:background_processor.py:101] - Error in background process for job job_ce4f442f-d676-4917-8d54-1f0d2c13ef93: 400: Corrupted PDF.
+Traceback (most recent call last):
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\services\pdf_loader.py", line 37, in validate_pdf
+    reader = PdfReader(str(file_path))
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_reader.py", line 151, in __init__
+    self._initialize_stream(stream)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_reader.py", line 175, in _initialize_stream
+    self.read(stream)
+    ~~~~~~~~~^^^^^^^^
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_reader.py", line 684, in read
+    self._find_eof_marker(stream)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_reader.py", line 797, in _find_eof_marker
+    line = read_previous_line(stream)
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\venv\Lib\site-packages\pypdf\_utils.py", line 330, in read_previous_line
+    raise PdfStreamError(STREAM_TRUNCATED_PREMATURELY)
+pypdf.errors.PdfStreamError: Stream has ended unexpectedly
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\services\background_processor.py", line 37, in background_process_file
+    pages_data = await loop.run_in_executor(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\morik\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\utils\logger.py", line 47, in wrapper
+    raise e
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\utils\logger.py", line 40, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\services\pdf_loader.py", line 91, in extract_text_with_metadata
+    reader = self.validate_pdf(file_path)
+  File "C:\Users\morik\OneDrive\Desktop\DocuMind AI – Intelligent PDF Assistant\backend\app\services\pdf_loader.py", line 67, in validate_pdf
+    raise HTTPException(
+    ...<2 lines>...
+    )
+fastapi.exceptions.HTTPException: 400: Corrupted PDF.
+[2026-06-11 10:48:27] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 10:48:27] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:51:41] INFO [rag_chatbot:embedding_service.py:141] - Initializing HuggingFace Local Embeddings:
+  Model Name: sentence-transformers/all-MiniLM-L6-v2
+  SDK version (sentence-transformers): 5.5.1
+[2026-06-11 10:51:51] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:51:53] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:52:13] INFO [rag_chatbot:llm_service.py:53] - Initializing Gemini Chat model: gemini-1.5-flash
+[2026-06-11 10:52:14] INFO [rag_chatbot:chat.py:20] - Received chat question: 'What is this document about?'
+[2026-06-11 10:52:14] INFO [rag_chatbot:logger.py:38] - Starting answer_question...
+[2026-06-11 10:52:14] INFO [rag_chatbot:logger.py:38] - Starting similarity_search...
+[2026-06-11 10:52:14] INFO [rag_chatbot:vector_store.py:181] - Running similarity search for query: 'What is this document about?' with k=7
+[2026-06-11 10:52:14] INFO [rag_chatbot:logger.py:42] - Finished similarity_search in 0.3445 seconds.
+[2026-06-11 10:52:14] INFO [rag_chatbot:rag_chain.py:103] - Invoking LLM for RAG answer generation...
+[2026-06-11 10:52:16] ERROR [rag_chatbot:rag_chain.py:112] - LLM invocation failed: Error calling model 'gemini-1.5-flash' (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+[2026-06-11 10:52:16] ERROR [rag_chatbot:logger.py:46] - Failed answer_question in 1.6386 seconds. Error: 502: Failed to connect to the LLM service. Please check your network connection or API keys. Error: Error calling model 'gemini-1.5-flash' (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+[2026-06-11 10:54:54] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:54:54] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:54:54] INFO [rag_chatbot:chat.py:20] - Received chat question: 'What is this document about?'
+[2026-06-11 10:54:54] INFO [rag_chatbot:logger.py:38] - Starting answer_question...
+[2026-06-11 10:54:54] INFO [rag_chatbot:rag_chain.py:35] - Contextualizing user question using chat history...
+[2026-06-11 10:54:54] WARNING [rag_chatbot:rag_chain.py:45] - Failed to contextualize question: Error calling model 'gemini-1.5-flash' (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}. Using original question.
+[2026-06-11 10:54:54] INFO [rag_chatbot:logger.py:38] - Starting similarity_search...
+[2026-06-11 10:54:54] INFO [rag_chatbot:vector_store.py:181] - Running similarity search for query: 'What is this document about?' with k=7
+[2026-06-11 10:54:55] INFO [rag_chatbot:logger.py:42] - Finished similarity_search in 0.3223 seconds.
+[2026-06-11 10:54:55] INFO [rag_chatbot:rag_chain.py:103] - Invoking LLM for RAG answer generation...
+[2026-06-11 10:54:55] ERROR [rag_chatbot:rag_chain.py:112] - LLM invocation failed: Error calling model 'gemini-1.5-flash' (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+[2026-06-11 10:54:55] ERROR [rag_chatbot:logger.py:46] - Failed answer_question in 1.0311 seconds. Error: 502: Failed to connect to the LLM service. Please check your network connection or API keys. Error: Error calling model 'gemini-1.5-flash' (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+[2026-06-11 10:55:05] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:55:05] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:55:05] INFO [rag_chatbot:reset.py:22] - System reset requested. Clearing all files, indices, and database entries...
+[2026-06-11 10:55:05] INFO [rag_chatbot:vector_store.py:158] - Cleared local FAISS index files.
+[2026-06-11 10:55:05] INFO [rag_chatbot:file_service.py:106] - Cleared all files in uploads folder.
+[2026-06-11 10:55:05] INFO [rag_chatbot:database.py:110] - Cleared metadata database.
+[2026-06-11 10:55:05] INFO [rag_chatbot:reset.py:33] - System reset completed successfully.
+[2026-06-11 10:55:15] INFO [rag_chatbot:vector_store.py:42] - No local FAISS index found. A new one will be created upon first document upload.
+[2026-06-11 10:55:15] INFO [rag_chatbot:upload.py:60] - Processing upload for file: 400 Days by Chetan Bhagat.pdf
+[2026-06-11 10:55:15] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\47eb8a5f-7821-4c6c-95f6-ebb121257963_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-11 10:55:15] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 10:55:16] INFO [rag_chatbot:pdf_loader.py:95] - PDF pages detected: 379
+[2026-06-11 10:55:16] INFO [rag_chatbot:pdf_loader.py:106] - Extracting text from 47eb8a5f-7821-4c6c-95f6-ebb121257963_400_Days_by_Chetan_Bhagat.pdf (379 pages)...
+[2026-06-11 10:55:16] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 1 of 47eb8a5f-7821-4c6c-95f6-ebb121257963_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-11 10:55:16] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 3 of 47eb8a5f-7821-4c6c-95f6-ebb121257963_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-11 10:55:26] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 107 of 47eb8a5f-7821-4c6c-95f6-ebb121257963_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-11 10:55:34] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 225 of 47eb8a5f-7821-4c6c-95f6-ebb121257963_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-11 10:55:44] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 369 of 47eb8a5f-7821-4c6c-95f6-ebb121257963_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-11 10:55:44] INFO [rag_chatbot:pdf_loader.py:132] - Text extraction completed. Extracted text from 374 / 379 pages.
+[2026-06-11 10:55:44] INFO [rag_chatbot:logger.py:42] - Finished extract_text_with_metadata in 29.1433 seconds.
+[2026-06-11 10:55:44] INFO [rag_chatbot:text_splitter.py:49] - Split 374 pages into 382 text chunks.
+[2026-06-11 10:55:44] INFO [rag_chatbot:logger.py:38] - Starting add_documents...
+[2026-06-11 10:55:44] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 1/4 (100 chunks)...
+[2026-06-11 10:55:44] INFO [rag_chatbot:vector_store.py:87] - Creating a new FAISS index with first batch...
+[2026-06-11 10:55:49] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 2/4 (100 chunks)...
+[2026-06-11 10:55:49] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:55:53] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 3/4 (100 chunks)...
+[2026-06-11 10:55:53] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 10:55:58] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 4/4 (82 chunks)...
+[2026-06-11 10:55:58] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 82 chunks to existing FAISS index...
+[2026-06-11 10:56:01] INFO [rag_chatbot:vector_store.py:143] - FAISS index saved to local disk.
+[2026-06-11 10:56:01] INFO [rag_chatbot:vector_store.py:99] - Successfully added and saved 382 chunks to FAISS index in batches.
+[2026-06-11 10:56:01] INFO [rag_chatbot:logger.py:42] - Finished add_documents in 16.5721 seconds.
+[2026-06-11 10:56:01] INFO [rag_chatbot:database.py:95] - Saved metadata for document: 400 Days by Chetan Bhagat.pdf (ID: 47eb8a5f-7821-4c6c-95f6-ebb121257963)
+[2026-06-11 10:56:09] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 10:56:09] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 10:56:09] INFO [rag_chatbot:chat.py:20] - Received chat question: 'What is this document about?'
+[2026-06-11 10:56:09] INFO [rag_chatbot:logger.py:38] - Starting answer_question...
+[2026-06-11 10:56:09] INFO [rag_chatbot:logger.py:38] - Starting similarity_search...
+[2026-06-11 10:56:09] INFO [rag_chatbot:vector_store.py:181] - Running similarity search for query: 'What is this document about?' with k=7
+[2026-06-11 10:56:09] INFO [rag_chatbot:logger.py:42] - Finished similarity_search in 0.0291 seconds.
+[2026-06-11 10:56:09] INFO [rag_chatbot:rag_chain.py:103] - Invoking LLM for RAG answer generation...
+[2026-06-11 10:56:09] ERROR [rag_chatbot:rag_chain.py:112] - LLM invocation failed: Error calling model 'gemini-1.5-flash' (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+[2026-06-11 10:56:09] ERROR [rag_chatbot:logger.py:46] - Failed answer_question in 0.4187 seconds. Error: 502: Failed to connect to the LLM service. Please check your network connection or API keys. Error: Error calling model 'gemini-1.5-flash' (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+[2026-06-11 10:58:54] INFO [rag_chatbot:main.py:32] - Starting up RAG PDF Chatbot API...
+[2026-06-11 10:58:54] INFO [rag_chatbot:main.py:36] - Directory paths initialized successfully.
+[2026-06-11 10:59:52] INFO [rag_chatbot:embedding_service.py:141] - Initializing HuggingFace Local Embeddings:
+  Model Name: sentence-transformers/all-MiniLM-L6-v2
+  SDK version (sentence-transformers): 5.5.1
+[2026-06-11 11:00:01] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 11:00:02] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 11:00:04] INFO [rag_chatbot:llm_service.py:53] - Initializing Gemini Chat model: gemini-1.5-flash
+[2026-06-11 11:00:05] INFO [rag_chatbot:chat.py:20] - Received chat question: 'Whats document about??'
+[2026-06-11 11:00:05] INFO [rag_chatbot:logger.py:38] - Starting answer_question...
+[2026-06-11 11:00:05] INFO [rag_chatbot:logger.py:38] - Starting similarity_search...
+[2026-06-11 11:00:05] INFO [rag_chatbot:vector_store.py:181] - Running similarity search for query: 'Whats document about??' with k=7
+[2026-06-11 11:00:05] INFO [rag_chatbot:logger.py:42] - Finished similarity_search in 0.1808 seconds.
+[2026-06-11 11:00:05] INFO [rag_chatbot:rag_chain.py:103] - Invoking LLM for RAG answer generation...
+[2026-06-11 11:00:06] ERROR [rag_chatbot:rag_chain.py:112] - LLM invocation failed: Error calling model 'gemini-1.5-flash' (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+[2026-06-11 11:00:06] ERROR [rag_chatbot:logger.py:46] - Failed answer_question in 0.5881 seconds. Error: 502: Failed to connect to the LLM service. Please check your network connection or API keys. Error: Error calling model 'gemini-1.5-flash' (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+[2026-06-11 11:05:00] INFO [rag_chatbot:main.py:37] - Starting up RAG PDF Chatbot API...
+[2026-06-11 11:05:00] INFO [rag_chatbot:main.py:41] - Directory paths initialized successfully.
+[2026-06-11 11:08:52] INFO [rag_chatbot:main.py:37] - Starting up RAG PDF Chatbot API...
+[2026-06-11 11:08:52] INFO [rag_chatbot:main.py:41] - Directory paths initialized successfully.
+[2026-06-11 11:19:48] INFO [rag_chatbot:main.py:37] - Starting up RAG PDF Chatbot API...
+[2026-06-11 11:19:48] INFO [rag_chatbot:main.py:41] - Directory paths initialized successfully.
+[2026-06-11 11:31:32] INFO [rag_chatbot:main.py:37] - Starting up RAG PDF Chatbot API...
+[2026-06-11 11:31:32] INFO [rag_chatbot:main.py:41] - Directory paths initialized successfully.
+[2026-06-11 11:32:23] INFO [rag_chatbot:embedding_service.py:141] - Initializing HuggingFace Local Embeddings:
+  Model Name: sentence-transformers/all-MiniLM-L6-v2
+  SDK version (sentence-transformers): 5.5.1
+[2026-06-11 11:32:33] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 11:32:34] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 11:32:34] INFO [rag_chatbot:upload.py:60] - Processing upload for file: 400 Days by Chetan Bhagat.pdf
+[2026-06-11 11:32:34] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\7094a474-4b56-4054-873d-a76714aaf350_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-11 11:32:34] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-11 11:32:34] INFO [rag_chatbot:pdf_loader.py:95] - PDF pages detected: 379
+[2026-06-11 11:32:34] INFO [rag_chatbot:pdf_loader.py:106] - Extracting text from 7094a474-4b56-4054-873d-a76714aaf350_400_Days_by_Chetan_Bhagat.pdf (379 pages)...
+[2026-06-11 11:32:34] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 1 of 7094a474-4b56-4054-873d-a76714aaf350_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-11 11:32:34] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 3 of 7094a474-4b56-4054-873d-a76714aaf350_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-11 11:32:43] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 107 of 7094a474-4b56-4054-873d-a76714aaf350_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-11 11:32:51] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 225 of 7094a474-4b56-4054-873d-a76714aaf350_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-11 11:33:01] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 369 of 7094a474-4b56-4054-873d-a76714aaf350_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-11 11:33:02] INFO [rag_chatbot:pdf_loader.py:132] - Text extraction completed. Extracted text from 374 / 379 pages.
+[2026-06-11 11:33:02] INFO [rag_chatbot:logger.py:42] - Finished extract_text_with_metadata in 27.3739 seconds.
+[2026-06-11 11:33:02] INFO [rag_chatbot:text_splitter.py:49] - Split 374 pages into 382 text chunks.
+[2026-06-11 11:33:02] INFO [rag_chatbot:logger.py:38] - Starting add_documents...
+[2026-06-11 11:33:02] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 1/4 (100 chunks)...
+[2026-06-11 11:33:02] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 11:33:07] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 2/4 (100 chunks)...
+[2026-06-11 11:33:07] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 11:33:12] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 3/4 (100 chunks)...
+[2026-06-11 11:33:12] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-11 11:33:16] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 4/4 (82 chunks)...
+[2026-06-11 11:33:16] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 82 chunks to existing FAISS index...
+[2026-06-11 11:33:19] INFO [rag_chatbot:vector_store.py:143] - FAISS index saved to local disk.
+[2026-06-11 11:33:19] INFO [rag_chatbot:vector_store.py:99] - Successfully added and saved 382 chunks to FAISS index in batches.
+[2026-06-11 11:33:19] INFO [rag_chatbot:logger.py:42] - Finished add_documents in 17.0961 seconds.
+[2026-06-11 11:33:19] INFO [rag_chatbot:database.py:95] - Saved metadata for document: 400 Days by Chetan Bhagat.pdf (ID: 7094a474-4b56-4054-873d-a76714aaf350)
+[2026-06-11 11:34:03] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 11:34:03] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 11:34:07] INFO [rag_chatbot:llm_service.py:53] - Initializing Gemini Chat model: gemini-2.5-flash
+[2026-06-11 11:34:16] INFO [rag_chatbot:llm_service.py:74] - Successfully configured OpenAI as a runtime fallback for Gemini.
+[2026-06-11 11:34:16] INFO [rag_chatbot:chat.py:20] - Received chat question: 'whats the books tell about'
+[2026-06-11 11:34:16] INFO [rag_chatbot:logger.py:38] - Starting answer_question...
+[2026-06-11 11:34:16] INFO [rag_chatbot:logger.py:38] - Starting similarity_search...
+[2026-06-11 11:34:16] INFO [rag_chatbot:vector_store.py:181] - Running similarity search for query: 'whats the books tell about' with k=7
+[2026-06-11 11:34:16] INFO [rag_chatbot:logger.py:42] - Finished similarity_search in 0.0315 seconds.
+[2026-06-11 11:34:16] INFO [rag_chatbot:rag_chain.py:103] - Invoking LLM for RAG answer generation...
+[2026-06-11 11:35:08] INFO [rag_chatbot:logger.py:42] - Finished answer_question in 52.2829 seconds.
+[2026-06-11 11:35:18] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 11:35:18] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 11:35:18] INFO [rag_chatbot:documents.py:71] - Initiating deletion for document: 400 Days by Chetan Bhagat.pdf (ID: 47eb8a5f-7821-4c6c-95f6-ebb121257963)
+[2026-06-11 11:35:18] INFO [rag_chatbot:logger.py:38] - Starting delete_document_chunks...
+[2026-06-11 11:35:18] INFO [rag_chatbot:vector_store.py:123] - Deleting 382 chunks from FAISS index...
+[2026-06-11 11:35:18] INFO [rag_chatbot:vector_store.py:143] - FAISS index saved to local disk.
+[2026-06-11 11:35:18] INFO [rag_chatbot:logger.py:42] - Finished delete_document_chunks in 0.0192 seconds.
+[2026-06-11 11:35:18] INFO [rag_chatbot:file_service.py:89] - Deleted file from disk: uploads\47eb8a5f-7821-4c6c-95f6-ebb121257963_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-11 11:35:18] INFO [rag_chatbot:database.py:103] - Deleted metadata for document ID: 47eb8a5f-7821-4c6c-95f6-ebb121257963
+[2026-06-11 11:35:18] INFO [rag_chatbot:documents.py:89] - Successfully deleted document: 400 Days by Chetan Bhagat.pdf (ID: 47eb8a5f-7821-4c6c-95f6-ebb121257963)
+[2026-06-11 11:35:41] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 11:35:41] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 11:35:41] INFO [rag_chatbot:chat.py:20] - Received chat question: 'read and summerise chsapter 1'
+[2026-06-11 11:35:41] INFO [rag_chatbot:logger.py:38] - Starting answer_question...
+[2026-06-11 11:35:41] INFO [rag_chatbot:rag_chain.py:35] - Contextualizing user question using chat history...
+[2026-06-11 11:35:44] INFO [rag_chatbot:logger.py:38] - Starting similarity_search...
+[2026-06-11 11:35:44] INFO [rag_chatbot:vector_store.py:181] - Running similarity search for query: 'Summarize chapter 1 of the book "400 Days by Chetan Bhagat".' with k=7
+[2026-06-11 11:35:44] INFO [rag_chatbot:logger.py:42] - Finished similarity_search in 0.0590 seconds.
+[2026-06-11 11:35:44] INFO [rag_chatbot:rag_chain.py:103] - Invoking LLM for RAG answer generation...
+[2026-06-11 11:35:47] INFO [rag_chatbot:logger.py:42] - Finished answer_question in 5.3007 seconds.
+[2026-06-11 11:36:06] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-11 11:36:06] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-11 11:36:06] INFO [rag_chatbot:chat.py:20] - Received chat question: 'read chapter 1'
+[2026-06-11 11:36:06] INFO [rag_chatbot:logger.py:38] - Starting answer_question...
+[2026-06-11 11:36:06] INFO [rag_chatbot:rag_chain.py:35] - Contextualizing user question using chat history...
+[2026-06-11 11:36:13] INFO [rag_chatbot:logger.py:38] - Starting similarity_search...
+[2026-06-11 11:36:13] INFO [rag_chatbot:vector_store.py:181] - Running similarity search for query: 'read chapter 1' with k=7
+[2026-06-11 11:36:13] INFO [rag_chatbot:logger.py:42] - Finished similarity_search in 0.0200 seconds.
+[2026-06-11 11:36:13] INFO [rag_chatbot:rag_chain.py:103] - Invoking LLM for RAG answer generation...
+[2026-06-11 11:36:23] INFO [rag_chatbot:logger.py:42] - Finished answer_question in 16.1447 seconds.
+[2026-06-15 10:49:55] INFO [rag_chatbot:main.py:37] - Starting up RAG PDF Chatbot API...
+[2026-06-15 10:49:55] INFO [rag_chatbot:main.py:41] - Directory paths initialized successfully.
+[2026-06-15 10:54:01] INFO [rag_chatbot:embedding_service.py:141] - Initializing HuggingFace Local Embeddings:
+  Model Name: sentence-transformers/all-MiniLM-L6-v2
+  SDK version (sentence-transformers): 5.5.1
+[2026-06-15 10:54:14] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-15 10:54:18] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-15 10:54:18] INFO [rag_chatbot:upload.py:60] - Processing upload for file: 400 Days by Chetan Bhagat.pdf
+[2026-06-15 10:54:18] INFO [rag_chatbot:file_service.py:72] - Successfully saved uploaded file to: uploads\574b69c1-376f-4343-8451-6772aea25991_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-15 10:54:18] INFO [rag_chatbot:logger.py:38] - Starting extract_text_with_metadata...
+[2026-06-15 10:54:18] INFO [rag_chatbot:pdf_loader.py:95] - PDF pages detected: 379
+[2026-06-15 10:54:18] INFO [rag_chatbot:pdf_loader.py:106] - Extracting text from 574b69c1-376f-4343-8451-6772aea25991_400_Days_by_Chetan_Bhagat.pdf (379 pages)...
+[2026-06-15 10:54:18] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 1 of 574b69c1-376f-4343-8451-6772aea25991_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-15 10:54:19] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 3 of 574b69c1-376f-4343-8451-6772aea25991_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-15 10:54:27] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 107 of 574b69c1-376f-4343-8451-6772aea25991_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-15 10:54:35] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 225 of 574b69c1-376f-4343-8451-6772aea25991_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-15 10:54:44] WARNING [rag_chatbot:pdf_loader.py:124] - No text extracted from page 369 of 574b69c1-376f-4343-8451-6772aea25991_400_Days_by_Chetan_Bhagat.pdf (scanned page or empty).
+[2026-06-15 10:54:45] INFO [rag_chatbot:pdf_loader.py:132] - Text extraction completed. Extracted text from 374 / 379 pages.
+[2026-06-15 10:54:45] INFO [rag_chatbot:logger.py:42] - Finished extract_text_with_metadata in 26.3480 seconds.
+[2026-06-15 10:54:45] INFO [rag_chatbot:text_splitter.py:49] - Split 374 pages into 382 text chunks.
+[2026-06-15 10:54:45] INFO [rag_chatbot:logger.py:38] - Starting add_documents...
+[2026-06-15 10:54:45] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 1/4 (100 chunks)...
+[2026-06-15 10:54:45] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-15 10:54:49] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 2/4 (100 chunks)...
+[2026-06-15 10:54:49] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-15 10:54:53] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 3/4 (100 chunks)...
+[2026-06-15 10:54:53] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 100 chunks to existing FAISS index...
+[2026-06-15 10:54:58] INFO [rag_chatbot:vector_store.py:68] - Processing embedding batch 4/4 (82 chunks)...
+[2026-06-15 10:54:58] INFO [rag_chatbot:vector_store.py:94] - Adding batch of 82 chunks to existing FAISS index...
+[2026-06-15 10:55:01] INFO [rag_chatbot:vector_store.py:143] - FAISS index saved to local disk.
+[2026-06-15 10:55:01] INFO [rag_chatbot:vector_store.py:99] - Successfully added and saved 382 chunks to FAISS index in batches.
+[2026-06-15 10:55:01] INFO [rag_chatbot:logger.py:42] - Finished add_documents in 16.5870 seconds.
+[2026-06-15 10:55:01] INFO [rag_chatbot:database.py:95] - Saved metadata for document: 400 Days by Chetan Bhagat.pdf (ID: 574b69c1-376f-4343-8451-6772aea25991)
+[2026-06-15 10:55:39] INFO [rag_chatbot:vector_store.py:30] - Loading local FAISS index from faiss_db...
+[2026-06-15 10:55:39] INFO [rag_chatbot:vector_store.py:37] - Successfully loaded existing FAISS vector database.
+[2026-06-15 10:55:39] INFO [rag_chatbot:documents.py:71] - Initiating deletion for document: 400 Days by Chetan Bhagat.pdf (ID: 7094a474-4b56-4054-873d-a76714aaf350)
+[2026-06-15 10:55:39] INFO [rag_chatbot:logger.py:38] - Starting delete_document_chunks...
+[2026-06-15 10:55:39] INFO [rag_chatbot:vector_store.py:123] - Deleting 382 chunks from FAISS index...
+[2026-06-15 10:55:39] INFO [rag_chatbot:vector_store.py:143] - FAISS index saved to local disk.
+[2026-06-15 10:55:39] INFO [rag_chatbot:logger.py:42] - Finished delete_document_chunks in 0.0303 seconds.
+[2026-06-15 10:55:39] INFO [rag_chatbot:file_service.py:89] - Deleted file from disk: uploads\7094a474-4b56-4054-873d-a76714aaf350_400_Days_by_Chetan_Bhagat.pdf
+[2026-06-15 10:55:39] INFO [rag_chatbot:database.py:103] - Deleted metadata for document ID: 7094a474-4b56-4054-873d-a76714aaf350
+[2026-06-15 10:55:39] INFO [rag_chatbot:documents.py:89] - Successfully deleted document: 400 Days by Chetan Bhagat.pdf (ID: 7094a474-4b56-4054-873d-a76714aaf350)
+[2026-06-15 12:05:14] INFO [rag_chatbot:main.py:37] - Starting up RAG PDF Chatbot API...
+[2026-06-15 12:05:14] INFO [rag_chatbot:main.py:41] - Directory paths initialized successfully.
+[2026-06-15 12:07:13] INFO [rag_chatbot:main.py:37] - Starting up RAG PDF Chatbot API...
+[2026-06-15 12:07:13] INFO [rag_chatbot:database.py:31] - Connecting to MongoDB database 'documind_ai'...
+[2026-06-15 12:07:13] INFO [rag_chatbot:database.py:42] - Successfully connected to MongoDB Atlas database.
+[2026-06-15 12:07:14] INFO [rag_chatbot:database.py:86] - MongoDB collections and indexes initialized successfully.
+[2026-06-15 12:07:14] INFO [rag_chatbot:main.py:41] - Directory paths initialized successfully.
+[2026-06-15 12:07:45] INFO [rag_chatbot:main.py:37] - Starting up RAG PDF Chatbot API...
+[2026-06-15 12:07:45] INFO [rag_chatbot:database.py:31] - Connecting to MongoDB database 'documind_ai'...
+[2026-06-15 12:07:45] INFO [rag_chatbot:database.py:42] - Successfully connected to MongoDB Atlas database.
+[2026-06-15 12:07:45] INFO [rag_chatbot:database.py:86] - MongoDB collections and indexes initialized successfully.
+[2026-06-15 12:07:45] INFO [rag_chatbot:main.py:41] - Directory paths initialized successfully.
+[2026-06-15 12:08:35] INFO [rag_chatbot:main.py:37] - Starting up RAG PDF Chatbot API...
+[2026-06-15 12:08:35] INFO [rag_chatbot:database.py:31] - Connecting to MongoDB database 'documind_ai'...
+[2026-06-15 12:08:35] INFO [rag_chatbot:database.py:42] - Successfully connected to MongoDB Atlas database.
+[2026-06-15 12:08:35] INFO [rag_chatbot:database.py:86] - MongoDB collections and indexes initialized successfully.
+[2026-06-15 12:08:35] INFO [rag_chatbot:main.py:41] - Directory paths initialized successfully.
