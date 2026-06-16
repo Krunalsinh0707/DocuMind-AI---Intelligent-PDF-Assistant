@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { Sparkles, ShieldCheck, Database, Zap } from 'lucide-react';
 
 export default function LoginPage() {
-  const { user, signInWithGoogle, loading } = useAuth();
+  const { user, signInWithGoogle, loading, signInMock } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isSigningIn, setIsSigningIn] = useState(false);
 
@@ -55,6 +55,7 @@ export default function LoginPage() {
             onClick={handleGoogleSignIn} 
             disabled={isSigningIn}
             className="google-signin-btn"
+            id="google-signin-btn"
           >
             <svg className="google-icon" viewBox="0 0 24 24" width="20" height="20">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -64,7 +65,18 @@ export default function LoginPage() {
             </svg>
             <span>{isSigningIn ? 'Signing in...' : 'Continue with Google'}</span>
           </button>
+          
+          <button 
+            type="button"
+            onClick={() => signInMock('devuser12345678901234567890a')} 
+            className="google-signin-btn"
+            id="dev-bypass-btn"
+            style={{ marginTop: '12px', backgroundColor: '#1f2937', color: '#f3f4f6', borderColor: '#374151' }}
+          >
+            <span>Bypass Sign-In (Local Dev)</span>
+          </button>
         </div>
+
 
         <div className="login-features">
           <div className="login-feature-item">

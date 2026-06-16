@@ -9,13 +9,19 @@ const apiClient = axios.create({
 
 // Request interceptor to add user authentication information
 apiClient.interceptors.request.use(
-  (config) => {
+  async (config) => {
     const currentUser = auth.currentUser;
     if (currentUser) {
       // Send User ID for multi-tenant isolation prep
       config.headers['X-User-ID'] = currentUser.uid;
-      // Send standard authorization token structure
-      config.headers['Authorization'] = `Bearer ${currentUser.uid}`;
+      // Fetch the Firebase ID Token dynamically
+      try {
+        const token = await currentUser.getIdToken();
+        config.headers['Authorization'] = `Bearer ${token}`;
+      } catch (err) {
+        console.warn("Failed to get Firebase ID Token, falling back to raw UID", err);
+        config.headers['Authorization'] = `Bearer ${currentUser.uid}`;
+      }
     }
     return config;
   },
@@ -47,8 +53,12 @@ export const api = {
     return response.data;
   },
 
-  chat: async (query: string, history: any[]) => {
-    const response = await apiClient.post('/chat', { question: query, history });
+  chat: async (query: string, history: any[], sessionId?: string | null) => {
+    const response = await apiClient.post('/chat', { 
+      question: query, 
+      history, 
+      session_id: sessionId 
+    });
     return response.data;
   },
 
@@ -63,7 +73,6 @@ export const api = {
   },
 
   downloadDocumentUrl: (id: string) => {
-    // Return relative URL or absolute, appending user identification if needed
     const currentUser = auth.currentUser;
     const authQuery = currentUser ? `?uid=${currentUser.uid}` : '';
     return `${API_BASE_URL}/documents/${id}/download${authQuery}`;
@@ -75,12 +84,42 @@ export const api = {
   },
 
   resetDb: async () => {
-    const response = await apiClient.post('/reset');
+    // Clear-db endpoint scopes specifically to the current authenticated user
+    const response = await apiClient.post('/clear-db');
     return response.data;
   },
 
   getHealth: async () => {
-    const response = await apiClient.get('/health');
+    const response = await apiClient.get('/health/database');
     return response.data;
   },
+
+  getProfile: async () => {
+    const response = await apiClient.get('/profile');
+    return response.data;
+  },
+
+  // Chat Sessions CRUD
+  getChatSessions: async () => {
+    const response = await apiClient.get('/chat-sessions');
+    return response.data;
+  },
+
+  createChatSession: async (title?: string, documentIds?: string[]) => {
+    const response = await apiClient.post('/chat-sessions', { 
+      title: title || 'New Conversation', 
+      document_ids: documentIds || [] 
+    });
+    return response.data;
+  },
+
+  deleteChatSession: async (sessionId: string) => {
+    const response = await apiClient.delete(`/chat-sessions/${sessionId}`);
+    return response.data;
+  },
+
+  getSessionMessages: async (sessionId: string) => {
+    const response = await apiClient.get(`/chat-sessions/${sessionId}/messages`);
+    return response.data;
+  }
 };

@@ -209,3 +209,8 @@ metadata_db = MongoDBManager()
 
 # Alias for compatibility with other files
 MetadataDB = MongoDBManager
+
+def get_metadata_db() -> MongoDBManager:
+    """Dependency to retrieve the document metadata database instance."""
+    return metadata_db
+

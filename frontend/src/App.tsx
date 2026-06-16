@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate, HashRouter } from 'react-router-dom';
 import WorkspacePage from './pages/WorkspacePage';
 import LoginPage from './pages/LoginPage';
+import ProfilePage from './pages/ProfilePage';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
@@ -14,6 +15,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <WorkspacePage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
               </ProtectedRoute>
             } 
           />

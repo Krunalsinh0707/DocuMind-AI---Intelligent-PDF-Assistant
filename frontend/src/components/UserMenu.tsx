@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { LogOut, FileText, ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { LogOut, FileText, ChevronDown, User as UserIcon } from 'lucide-react';
 
 interface UserMenuProps {
   onOpenDocuments?: () => void;
@@ -8,6 +9,7 @@ interface UserMenuProps {
 
 export const UserMenu: React.FC<UserMenuProps> = ({ onOpenDocuments }) => {
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -46,6 +48,10 @@ export const UserMenu: React.FC<UserMenuProps> = ({ onOpenDocuments }) => {
             <p className="dropdown-email">{user.email}</p>
           </div>
           <div className="dropdown-divider" />
+          <button className="dropdown-item" onClick={() => { setIsOpen(false); navigate('/profile'); }}>
+            <UserIcon size={16} />
+            <span>Profile & Dashboard</span>
+          </button>
           {onOpenDocuments && (
             <button className="dropdown-item" onClick={() => { setIsOpen(false); onOpenDocuments(); }}>
               <FileText size={16} />

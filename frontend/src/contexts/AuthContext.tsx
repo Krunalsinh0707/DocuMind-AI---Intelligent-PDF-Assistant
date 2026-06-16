@@ -12,6 +12,7 @@ interface AuthContextType {
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
+  signInMock: (uid: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,7 +21,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const signInMock = (uid: string) => {
+    const mockUser: any = {
+      uid: uid,
+      displayName: `Dev User ${uid.substring(0, 6)}`,
+      email: `dev_${uid.substring(0, 6).toLowerCase()}@documind.local`,
+      getIdToken: async () => uid
+    };
+    setUser(mockUser);
+    localStorage.setItem('mock_user_uid', uid);
+  };
+
   useEffect(() => {
+    const savedMockUid = localStorage.getItem('mock_user_uid');
+    if (savedMockUid && savedMockUid.length === 28) {
+      signInMock(savedMockUid);
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
@@ -43,6 +62,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     setLoading(true);
     try {
+      localStorage.removeItem('mock_user_uid');
+      setUser(null);
       await firebaseSignOut(auth);
     } catch (error) {
       console.error('Error signing out:', error);
@@ -52,11 +73,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signOut, signInMock }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

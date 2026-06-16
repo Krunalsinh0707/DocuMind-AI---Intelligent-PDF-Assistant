@@ -52,49 +52,13 @@ export default function WorkspacePage() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Initial Fetch & LocalStorage loading
+  // Initial Fetch on Mount and User Change
   useEffect(() => {
     fetchDocuments();
-    
-    // Load sessions from localStorage
     if (user) {
-      const storedSessions = localStorage.getItem(`documind_sessions_${user.uid}`);
-      if (storedSessions) {
-        try {
-          const parsed = JSON.parse(storedSessions);
-          setSessions(parsed);
-          if (parsed.length > 0) {
-            setActiveSessionId(parsed[0].id);
-            setMessages(parsed[0].messages || []);
-          } else {
-            // Create a default session
-            createNewSession([]);
-          }
-        } catch (e) {
-          console.error('Failed to parse stored sessions:', e);
-          createNewSession([]);
-        }
-      } else {
-        createNewSession([]);
-      }
+      loadSessions();
     }
   }, [user]);
-
-  // Save sessions to localStorage when they change
-  useEffect(() => {
-    if (user && sessions.length > 0) {
-      localStorage.setItem(`documind_sessions_${user.uid}`, JSON.stringify(sessions));
-    }
-  }, [sessions, user]);
-
-  // Keep messages in sync with the active session in state
-  useEffect(() => {
-    if (activeSessionId) {
-      setSessions((prev) =>
-        prev.map((s) => (s.id === activeSessionId ? { ...s, messages } : s))
-      );
-    }
-  }, [messages, activeSessionId]);
 
   // Scroll to bottom when messages or loading state changes
   useEffect(() => {
@@ -110,39 +74,71 @@ export default function WorkspacePage() {
     }
   };
 
-  const createNewSession = (initialMsgs: Message[] = []) => {
-    const newSessionId = `session_${Date.now()}`;
-    const newSession: ChatSession = {
-      id: newSessionId,
-      title: 'New Conversation',
-      messages: initialMsgs,
-      createdAt: Date.now(),
-    };
-    setSessions((prev) => [newSession, ...prev]);
-    setActiveSessionId(newSessionId);
-    setMessages(initialMsgs);
-  };
-
-  const handleSelectSession = (id: string) => {
-    const session = sessions.find((s) => s.id === id);
-    if (session) {
-      setActiveSessionId(id);
-      setMessages(session.messages || []);
+  const loadSessions = async () => {
+    try {
+      const data = await api.getChatSessions();
+      setSessions(data || []);
+      if (data && data.length > 0) {
+        // Set the most recently updated session active
+        const active = data[0];
+        setActiveSessionId(active.id);
+        fetchMessages(active.id);
+      } else {
+        // Create a default session in the database
+        await createNewSession();
+      }
+    } catch (err) {
+      console.error('Error loading sessions:', err);
     }
   };
 
-  const handleDeleteSession = (id: string, e: React.MouseEvent) => {
+  const fetchMessages = async (sessId: string) => {
+    try {
+      const data = await api.getSessionMessages(sessId);
+      // Map DB message logs to frontend UI Message format
+      const formatted = data.map((m: any) => ({
+        role: m.role,
+        content: m.content,
+        timestamp: m.timestamp * 1000,
+        sources: m.sources || []
+      }));
+      setMessages(formatted);
+    } catch (err) {
+      console.error('Error fetching messages:', err);
+    }
+  };
+
+  const createNewSession = async () => {
+    try {
+      const newSess = await api.createChatSession('New Conversation');
+      setSessions((prev) => [newSess, ...prev]);
+      setActiveSessionId(newSess.id);
+      setMessages([]);
+    } catch (err) {
+      console.error('Error creating new session:', err);
+    }
+  };
+
+  const handleSelectSession = (id: string) => {
+    setActiveSessionId(id);
+    fetchMessages(id);
+  };
+
+  const handleDeleteSession = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    const filtered = sessions.filter((s) => s.id !== id);
-    setSessions(filtered);
-    
-    // Clear storage if all sessions deleted
-    if (filtered.length === 0) {
-      if (user) localStorage.removeItem(`documind_sessions_${user.uid}`);
-      createNewSession([]);
-    } else if (activeSessionId === id) {
-      setActiveSessionId(filtered[0].id);
-      setMessages(filtered[0].messages || []);
+    try {
+      await api.deleteChatSession(id);
+      const filtered = sessions.filter((s) => s.id !== id);
+      setSessions(filtered);
+      
+      if (filtered.length === 0) {
+        await createNewSession();
+      } else if (activeSessionId === id) {
+        setActiveSessionId(filtered[0].id);
+        fetchMessages(filtered[0].id);
+      }
+    } catch (err) {
+      console.error('Error deleting session:', err);
     }
   };
 
@@ -283,7 +279,7 @@ export default function WorkspacePage() {
   };
 
   const handleResetDb = async () => {
-    if (!window.confirm("WARNING: Are you sure you want to clear your local knowledge base? This action is permanent.")) {
+    if (!window.confirm("WARNING: Are you sure you want to clear your personal knowledge base? This action is permanent.")) {
       return;
     }
     setIsResetting(true);
@@ -291,7 +287,7 @@ export default function WorkspacePage() {
       await api.resetDb();
       setDocuments([]);
       setMessages([]);
-      createNewSession([]);
+      await loadSessions();
     } catch (err) {
       alert('Failed to reset knowledge base.');
     } finally {
@@ -311,7 +307,7 @@ export default function WorkspacePage() {
     setMessages(updatedMessages);
     setIsLoading(true);
 
-    // Update conversation title if it was default
+    // Update conversation title locally if it was default
     const activeSession = sessions.find((s) => s.id === activeSessionId);
     if (activeSession && activeSession.title === 'New Conversation') {
       const truncatedTitle = queryText.length > 25 ? `${queryText.substring(0, 25)}...` : queryText;
@@ -333,7 +329,7 @@ export default function WorkspacePage() {
     }
 
     try {
-      const data = await api.chat(queryText, history);
+      const data = await api.chat(queryText, history, activeSessionId);
       const assistantMsg: Message = {
         role: 'assistant',
         content: data.answer,
@@ -382,7 +378,7 @@ export default function WorkspacePage() {
     }
 
     try {
-      const data = await api.chat(targetQuery, history);
+      const data = await api.chat(targetQuery, history, activeSessionId);
       setMessages((prev) => {
         const updated = [...prev];
         updated[index] = {
@@ -416,7 +412,7 @@ export default function WorkspacePage() {
         sessions={sessions}
         activeSessionId={activeSessionId}
         onSelectSession={handleSelectSession}
-        onNewSession={() => createNewSession([])}
+        onNewSession={createNewSession}
         onDeleteSession={handleDeleteSession}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
@@ -459,7 +455,7 @@ export default function WorkspacePage() {
           </div>
 
           <div className="header-actions">
-            {/* Google Profile Dropdown */}
+            {/* Profile Dropdown */}
             <UserMenu onOpenDocuments={() => setIsDocManagerOpen(true)} />
           </div>
         </header>
