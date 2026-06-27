@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Copy, RotateCcw, User, Bot, Clock, ChevronDown, ChevronUp, FileText } from 'lucide-react';
+import { Copy, RotateCcw, User, Bot, Clock, ChevronDown, ChevronUp, FileText, ThumbsUp, ThumbsDown } from 'lucide-react';
 
 export type Source = {
   page: number | null;
@@ -21,6 +21,7 @@ interface ChatMessageProps {
   onCopy: (text: string, index: number) => void;
   onRegenerate?: (index: number) => void;
   copied: boolean;
+  onSourceClick?: (page: number, sourceName: string) => void;
 }
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({
@@ -28,9 +29,12 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   messageIndex,
   onCopy,
   onRegenerate,
-  copied
+  copied,
+  onSourceClick
 }) => {
   const [showSnippets, setShowSnippets] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
   const isAssistant = message.role === 'assistant';
   
   // Format timestamp
@@ -38,15 +42,27 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
     ? new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     : new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-  // Get unique page numbers
+  // Get unique combinations of page and source_name
   const uniqueSources = message.sources 
-    ? Array.from(new Set(message.sources.map(s => s.page).filter((p): p is number => p !== null)))
+    ? message.sources.filter((src, idx, self) => 
+        src.page !== null && self.findIndex(s => s.page === src.page && s.source_name === src.source_name) === idx
+      )
     : [];
+
+  const handleLike = () => {
+    setLiked(!liked);
+    if (disliked) setDisliked(false);
+  };
+
+  const handleDislike = () => {
+    setDisliked(!disliked);
+    if (liked) setLiked(false);
+  };
 
   return (
     <div className={`chat-message-row ${message.role}`}>
       <div className={`msg-avatar ${message.role}`}>
-        {isAssistant ? <Bot size={15} color="#ffffff" /> : <User size={15} color="#94a3b8" />}
+        {isAssistant ? <Bot size={15} color="var(--text-primary)" /> : <User size={15} color="var(--text-secondary)" />}
       </div>
       <div className="msg-body">
         <div className="msg-header">
@@ -80,6 +96,24 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                     <span>Regenerate</span>
                   </button>
                 )}
+                <button 
+                  type="button"
+                  className="msg-action-btn"
+                  onClick={handleLike}
+                  style={{ color: liked ? 'var(--success-color)' : 'var(--text-secondary)' }}
+                  title="Like response"
+                >
+                  <ThumbsUp size={12} fill={liked ? 'currentColor' : 'none'} />
+                </button>
+                <button 
+                  type="button"
+                  className="msg-action-btn"
+                  onClick={handleDislike}
+                  style={{ color: disliked ? 'var(--danger-color)' : 'var(--text-secondary)' }}
+                  title="Dislike response"
+                >
+                  <ThumbsDown size={12} fill={disliked ? 'currentColor' : 'none'} />
+                </button>
               </div>
             )}
           </div>
@@ -97,9 +131,18 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
             <div className="sources-header-inline" onClick={() => setShowSnippets(!showSnippets)}>
               <span className="sources-title-label">Sources Used:</span>
               <div className="sources-pills-row">
-                {uniqueSources.map((page, idx) => (
-                  <span key={idx} className="source-pill">
-                    • Page {page}
+                {uniqueSources.map((src, idx) => (
+                  <span 
+                    key={idx} 
+                    className="source-pill clickable"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (src.page && onSourceClick) {
+                        onSourceClick(src.page, src.source_name);
+                      }
+                    }}
+                  >
+                    • {src.source_name} (Pg {src.page})
                   </span>
                 ))}
                 {uniqueSources.length === 0 && (
@@ -115,10 +158,18 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
             {showSnippets && (
               <div className="sources-expanded-list">
                 {message.sources.map((src, idx) => (
-                  <div key={idx} className="inline-source-card">
+                  <div 
+                    key={idx} 
+                    className="inline-source-card clickable"
+                    onClick={() => {
+                      if (src.page && onSourceClick) {
+                        onSourceClick(src.page, src.source_name);
+                      }
+                    }}
+                  >
                     <div className="inline-source-card-header">
                       <div className="inline-source-doc-name">
-                        <FileText size={12} className="text-indigo-400" />
+                        <FileText size={12} style={{ color: 'var(--primary-color)' }} />
                         <span>{src.source_name}</span>
                       </div>
                       <span className="inline-source-meta">

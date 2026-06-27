@@ -16,7 +16,8 @@ async def background_process_file(
     pdf_loader,
     text_splitter,
     vector_store,
-    user_id: str
+    user_id: str,
+    file_hash: str
 ) -> None:
     """Processes large PDFs asynchronously.
     
@@ -81,7 +82,10 @@ async def background_process_file(
             chunk_count=len(chunks),
             chunk_ids=chunk_ids,
             user_id=user_id,
-            status="indexed"
+            status="indexed",
+            pages=len(pages_data),
+            questions_asked=0,
+            file_hash=file_hash
         )
         
         await loop.run_in_executor(

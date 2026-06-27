@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     # API Providers and Keys
     LLM_PROVIDER: str = Field(default="gemini", description="llm provider: openai or gemini")
     EMBEDDING_PROVIDER: str = Field(default="huggingface", description="embedding provider: openai, gemini or huggingface")
+    EMBEDDING_MODEL: str = Field(default="sentence-transformers/all-MiniLM-L6-v2", description="Embedding model name")
     OPENAI_API_KEY: str = Field(default="", description="OpenAI API key")
     GOOGLE_API_KEY: str = Field(default="", description="Google API key for Gemini")
     
@@ -38,11 +39,11 @@ class Settings(BaseSettings):
     # MongoDB Settings
     MONGODB_URI: str = Field(default="mongodb://localhost:27017", description="MongoDB connection URI")
     DATABASE_NAME: str = Field(default="documind_ai", description="MongoDB database name")
-
+ 
     # Auth Settings
     JWT_SECRET_KEY: str = Field(default="dev-jwt-secret-key-change-in-production-12345", description="JWT secret key")
     FIREBASE_PROJECT_ID: str = Field(default="", description="Firebase project ID")
-
+ 
     # CORS Configuration
     CORS_ORIGINS: List[str] = ["*"]
     
@@ -51,21 +52,19 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore"
     )
-
+ 
     @property
     def active_llm_model(self) -> str:
         if self.LLM_PROVIDER.lower() == "gemini":
             return self.GEMINI_MODEL
         return self.OPENAI_MODEL
-
+ 
     @property
     def active_embedding_model(self) -> str:
         provider = self.EMBEDDING_PROVIDER.lower()
-        if provider == "gemini":
-            return self.GEMINI_EMBEDDING_MODEL
-        elif provider == "huggingface":
-            return self.HUGGINGFACE_EMBEDDING_MODEL
-        return self.OPENAI_EMBEDDING_MODEL
-
+        if provider == "mock":
+            return "mock"
+        return self.EMBEDDING_MODEL
+ 
 # Global settings instance
 settings = Settings()

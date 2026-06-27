@@ -59,6 +59,22 @@ class VectorStoreService:
         chunk_ids = [f"{doc_id}_chunk_{i}" for i in range(len(documents))]
         batch_size = 100
         
+        # Extract metadata diagnostics from the first document chunk
+        doc_name = "unknown"
+        total_pages = 0
+        if documents:
+            doc_name = documents[0].metadata.get("source", "unknown")
+            total_pages = documents[0].metadata.get("total_pages", 0)
+
+        logger.info("=" * 50)
+        logger.info("INDEXING DIAGNOSTICS:")
+        logger.info(f"  Document Name: {doc_name}")
+        logger.info(f"  Number of Pages: {total_pages}")
+        logger.info(f"  Number of Chunks: {len(documents)}")
+        logger.info(f"  Embedding Provider: {settings.EMBEDDING_PROVIDER}")
+        logger.info(f"  Embedding Model: {settings.EMBEDDING_MODEL}")
+        logger.info("=" * 50)
+
         try:
             total_batches = (len(documents) - 1) // batch_size + 1
             for i in range(0, len(documents), batch_size):
@@ -189,6 +205,19 @@ class VectorStoreService:
                 detail=f"Vector store search failed: {str(e)}"
             )
 
+_vector_store_cache = {}
+
+def get_vector_store_for_user(embeddings: Embeddings, user_id: str) -> "VectorStoreService":
+    """Retrieves or creates a cached VectorStoreService instance for a user."""
+    global _vector_store_cache
+    if user_id in _vector_store_cache:
+        _vector_store_cache[user_id].embeddings = embeddings
+        return _vector_store_cache[user_id]
+    
+    service = VectorStoreService(embeddings, user_id=user_id)
+    _vector_store_cache[user_id] = service
+    return service
+
 # Global helper function for dependency injection
 def get_vector_store_service(
     authorization: Optional[str] = Header(None),
@@ -209,4 +238,4 @@ def get_vector_store_service(
             uid = user_info["uid"]
         except Exception:
             pass
-    return VectorStoreService(embeddings, user_id=uid)
+    return get_vector_store_for_user(embeddings, user_id=uid)

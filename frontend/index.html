@@ -6,6 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DocuMind AI — Intelligent PDF Research Assistant</title>
     <meta name="description" content="DocuMind AI is a professional generative document intelligence platform. Analyze your research papers, financial sheets, and study materials with private, isolated semantic querying." />
+    <script>
+      (function() {
+        var theme = localStorage.getItem('documind-theme') || 'system';
+        var resolvedTheme = theme;
+        if (theme === 'system') {
+          resolvedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', resolvedTheme);
+        document.documentElement.style.colorScheme = resolvedTheme;
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -83,6 +83,9 @@ class MongoDBManager:
             # Knowledge Base Metadata Indexes
             self._db.kb_metadata.create_index("user_id", unique=True)
             
+            # Search History Indexes
+            self._db.search_history.create_index([("user_id", ASCENDING), ("timestamp", DESCENDING)])
+            
             logger.info("MongoDB collections and indexes initialized successfully.")
         except PyMongoError as pe:
             logger.error(f"Error creating database indexes: {str(pe)}")
@@ -111,6 +114,10 @@ class MongoDBManager:
     @property
     def kb_metadata(self):
         return self.db.kb_metadata if self.db is not None else None
+
+    @property
+    def search_history(self):
+        return self.db.search_history if self.db is not None else None
 
     def get_all(self, user_id: str) -> List[DocumentMetadata]:
         """Retrieve all document metadata records for a specific user."""
@@ -203,6 +210,118 @@ class MongoDBManager:
             logger.info(f"Cleared document metadata for user {user_id}")
         except Exception as e:
             logger.error(f"Error clearing documents: {str(e)}")
+
+    def save_search_history(self, user_id: str, query: str, session_id: Optional[str] = None, doc_id: Optional[str] = None, doc_name: Optional[str] = None, session_title: Optional[str] = None) -> str:
+        """Saves a search query log to the search_history collection."""
+        self._init_db()
+        if not self._connected or self.search_history is None:
+            return ""
+        try:
+            import uuid
+            entry_id = f"search_{uuid.uuid4().hex[:16]}"
+            doc = {
+                "id": entry_id,
+                "user_id": user_id,
+                "query": query,
+                "timestamp": datetime.utcnow().isoformat(),
+                "session_id": session_id,
+                "document_id": doc_id,
+                "document_name": doc_name,
+                "session_title": session_title
+            }
+            self.search_history.insert_one(doc)
+            return entry_id
+        except Exception as e:
+            logger.error(f"Error saving search history: {str(e)}")
+            return ""
+
+    def get_search_history(self, user_id: str, start_date: Optional[str] = None, end_date: Optional[str] = None, document_id: Optional[str] = None, query: Optional[str] = None) -> List[dict]:
+        """Retrieves filtered search history for a user, sorted by timestamp descending."""
+        self._init_db()
+        if not self._connected or self.search_history is None:
+            return []
+        try:
+            filter_query = {"user_id": user_id}
+            if start_date or end_date:
+                time_filter = {}
+                if start_date:
+                    time_filter["$gte"] = start_date
+                if end_date:
+                    time_filter["$lte"] = f"{end_date}T23:59:59.999999" if "T" not in end_date else end_date
+                filter_query["timestamp"] = time_filter
+            if document_id:
+                filter_query["document_id"] = document_id
+            if query:
+                filter_query["query"] = {"$regex": query, "$options": "i"}
+            
+            cursor = self.search_history.find(filter_query).sort("timestamp", DESCENDING)
+            results = []
+            for item in cursor:
+                item.pop("_id", None)
+                results.append(item)
+            return results
+        except Exception as e:
+            logger.error(f"Error fetching search history: {str(e)}")
+            return []
+
+    def delete_search_history_entry(self, user_id: str, entry_id: str) -> bool:
+        """Deletes a single search history entry if it belongs to the user."""
+        self._init_db()
+        if not self._connected or self.search_history is None:
+            return False
+        try:
+            result = self.search_history.delete_one({"id": entry_id, "user_id": user_id})
+            return result.deleted_count > 0
+        except Exception as e:
+            logger.error(f"Error deleting search history entry {entry_id}: {str(e)}")
+            return False
+
+    def clear_search_history(self, user_id: str) -> None:
+        """Clears all search history for a user."""
+        self._init_db()
+        if not self._connected or self.search_history is None:
+            return
+        try:
+            self.search_history.delete_many({"user_id": user_id})
+        except Exception as e:
+            logger.error(f"Error clearing search history: {str(e)}")
+
+    def update_user_profile(self, user_id: str, name: Optional[str] = None, email: Optional[str] = None, profile_picture: Optional[str] = None) -> Optional[dict]:
+        """Updates user profile information in the users collection."""
+        self._init_db()
+        if not self._connected or self.users is None:
+            return None
+        try:
+            update_data = {}
+            if name is not None:
+                update_data["name"] = name
+            if email is not None:
+                update_data["email"] = email
+            if profile_picture is not None:
+                update_data["profile_picture"] = profile_picture
+            
+            if not update_data:
+                return self.get_user_profile(user_id)
+                
+            self.users.update_one({"id": user_id}, {"$set": update_data})
+            return self.get_user_profile(user_id)
+        except Exception as e:
+            logger.error(f"Error updating user profile for {user_id}: {str(e)}")
+            return None
+
+    def get_user_profile(self, user_id: str) -> Optional[dict]:
+        """Gets user profile from the database."""
+        self._init_db()
+        if not self._connected or self.users is None:
+            return None
+        try:
+            user = self.users.find_one({"id": user_id})
+            if user:
+                user.pop("_id", None)
+            return user
+        except Exception as e:
+            logger.error(f"Error fetching profile: {str(e)}")
+            return None
 
 # Global instance of connection manager
 metadata_db = MongoDBManager()

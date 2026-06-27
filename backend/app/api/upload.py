@@ -1,6 +1,6 @@
 import asyncio
 from typing import List
-from fastapi import APIRouter, UploadFile, File, Depends, HTTPException, status
+from fastapi import APIRouter, UploadFile, File, Depends, HTTPException, status, BackgroundTasks
 from datetime import datetime
 
 from app.config import settings
@@ -14,7 +14,7 @@ from app.services.text_splitter import get_text_splitter_service, TextSplitterSe
 from app.services.vector_store import VectorStoreService
 from app.services.job_store import job_store
 from app.services.background_processor import background_process_file
-from app.utils.helpers import generate_unique_id, get_file_size_mb
+from app.utils.helpers import generate_unique_id, get_file_size_mb, calculate_file_hash
 from app.utils.logger import logger
 
 router = APIRouter()
@@ -23,9 +23,10 @@ router = APIRouter()
     "/upload",
     response_model=List[UploadResponse],
     summary="Upload PDF files",
-    description="Accepts one or more PDF files, extracts text, chunks it, embeds it, and stores it in the vector DB."
+    description="Accepts one or more PDF files and indexes them in the background."
 )
 async def upload_files(
+    background_tasks: BackgroundTasks,
     files: List[UploadFile] = File(..., description="PDF files to upload and index"),
     current_user: dict = Depends(get_current_user),
     db: MongoDBManager = Depends(get_metadata_db),
@@ -62,83 +63,53 @@ async def upload_files(
             
             # Save file securely to upload directory
             temp_path = file_service.save_file(file, doc_id)
-            file_size = get_file_size_mb(str(temp_path))
             
-            # 3. Check for async processing threshold (25MB)
-            if file_size >= settings.ASYNC_THRESHOLD_MB:
-                job_id = f"job_{doc_id}"
-                await job_store.create_job(job_id, file.filename or "document.pdf")
-                
-                # Start async task in background
-                asyncio.create_task(
-                    background_process_file(
-                        job_id=job_id,
-                        temp_path=temp_path,
-                        doc_id=doc_id,
-                        filename=file.filename or "document.pdf",
-                        db=db,
-                        pdf_loader=pdf_loader,
-                        text_splitter=text_splitter,
-                        vector_store=vector_store,
-                        user_id=current_user["id"]
-                    )
-                )
-                
-                responses.append(UploadResponse(
-                    id=doc_id,
-                    filename=file.filename or "document.pdf",
-                    status="processing",
-                    chunk_count=0,
-                    message="Background processing started for large file.",
-                    job_id=job_id
-                ))
-            else:
-                # Synchronous processing for files < 25MB
-                loop = asyncio.get_running_loop()
-                pages_data = await loop.run_in_executor(
-                    None,
-                    pdf_loader.extract_text_with_metadata,
-                    temp_path
-                )
-                
-                chunks = await loop.run_in_executor(
-                    None,
-                    text_splitter.split_pages,
-                    pages_data
-                )
-                
-                chunk_ids = await loop.run_in_executor(
-                    None,
-                    vector_store.add_documents,
-                    chunks,
-                    doc_id
-                )
-                
-                doc_metadata = DocumentMetadata(
-                    id=doc_id,
-                    filename=file.filename or "document.pdf",
-                    upload_timestamp=datetime.utcnow(),
-                    file_size_mb=file_size,
-                    chunk_count=len(chunks),
-                    chunk_ids=chunk_ids,
-                    user_id=current_user["id"],
-                    status="indexed"
-                )
-                
-                await loop.run_in_executor(
-                    None,
-                    db.save,
-                    doc_metadata,
-                    current_user["id"]
-                )
-                
-                responses.append(UploadResponse(
-                    id=doc_id,
-                    filename=file.filename or "document.pdf",
-                    status="success",
-                    chunk_count=len(chunks),
-                    message="File uploaded and indexed successfully."
-                ))
+            # Calculate file hash to prevent duplicate uploads
+            file_hash = calculate_file_hash(str(temp_path))
+            
+            # Check if this user already has this document indexed
+            if db.documents is not None:
+                existing_doc = db.documents.find_one({"file_hash": file_hash, "user_id": current_user["id"]})
+                if existing_doc:
+                    logger.info(f"File {file.filename} already indexed. Skipping processing.")
+                    # Clean up the newly uploaded temp file
+                    file_service.delete_file(str(temp_path))
+                    responses.append(UploadResponse(
+                        id=existing_doc["id"],
+                        filename=existing_doc["filename"],
+                        status="success",
+                        chunk_count=existing_doc["chunk_count"],
+                        message="Document already indexed. Do not reprocess."
+                    ))
+                    continue
+            
+            # Save upload as a background job
+            job_id = f"job_{doc_id}"
+            await job_store.create_job(job_id, file.filename or "document.pdf")
+            
+            # Add async processing to BackgroundTasks
+            background_tasks.add_task(
+                background_process_file,
+                job_id=job_id,
+                temp_path=temp_path,
+                doc_id=doc_id,
+                filename=file.filename or "document.pdf",
+                db=db,
+                pdf_loader=pdf_loader,
+                text_splitter=text_splitter,
+                vector_store=vector_store,
+                user_id=current_user["id"],
+                file_hash=file_hash
+            )
+            
+            responses.append(UploadResponse(
+                id=doc_id,
+                filename=file.filename or "document.pdf",
+                status="processing",
+                chunk_count=0,
+                message="Background processing started.",
+                job_id=job_id
+            ))
             
         except HTTPException as he:
             logger.error(f"HTTP error processing file {file.filename}: {he.detail}")

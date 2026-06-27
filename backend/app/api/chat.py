@@ -94,6 +94,41 @@ async def chat(
                 {"id": request.session_id},
                 {"$set": {"updated_at": now_iso}}
             )
+
+        # 4. Log search history and increment document questions_asked
+        session_title = None
+        if request.session_id and db.chat_sessions is not None:
+            if not session_doc:
+                session_doc = db.chat_sessions.find_one({"id": request.session_id, "user_id": current_user["id"]})
+            if session_doc:
+                session_title = session_doc.get("title", "New Conversation")
+                
+        primary_doc_id = None
+        primary_doc_name = None
+        if response.sources and db.documents is not None:
+            first_source = response.sources[0]
+            primary_doc_name = first_source.source_name
+            doc_record = db.documents.find_one({"user_id": current_user["id"], "filename": first_source.source_name})
+            if doc_record:
+                primary_doc_id = doc_record.get("id")
+                
+        if db.search_history is not None:
+            db.save_search_history(
+                user_id=current_user["id"],
+                query=request.question,
+                session_id=request.session_id,
+                doc_id=primary_doc_id,
+                doc_name=primary_doc_name,
+                session_title=session_title
+            )
+            
+        if response.sources and db.documents is not None:
+            cited_filenames = set(s.source_name for s in response.sources)
+            for fname in cited_filenames:
+                db.documents.update_one(
+                    {"user_id": current_user["id"], "filename": fname},
+                    {"$inc": {"questions_asked": 1}}
+                )
             
         return response
         

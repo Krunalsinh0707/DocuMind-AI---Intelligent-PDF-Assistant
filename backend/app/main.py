@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from app.config import settings
 from app.middleware.cors import add_cors_middleware
-from app.api import upload, chat, chat_history, documents, health, profile, reset
+from app.api import upload, chat, chat_history, documents, health, profile, reset, dashboard, history
 from app.utils.logger import logger
 from app.services.file_service import file_service
 from app.database import metadata_db
@@ -26,6 +26,8 @@ app.include_router(chat.router, tags=["Chat"])
 app.include_router(chat_history.router, tags=["Chat History"])
 app.include_router(documents.router, tags=["Documents"])
 app.include_router(profile.router, tags=["Profile"])
+app.include_router(dashboard.router, tags=["Dashboard"])
+app.include_router(history.router, tags=["History"])
 app.include_router(reset.router, tags=["Reset"])
 
 # Startup Event
@@ -35,6 +37,8 @@ async def startup_event():
     print("LLM PROVIDER:", settings.LLM_PROVIDER)
     print("GEMINI MODEL:", settings.GEMINI_MODEL)
     print("OPENAI MODEL:", settings.OPENAI_MODEL)
+    print("Embedding Provider:", settings.EMBEDDING_PROVIDER)
+    print("Embedding Model:", settings.EMBEDDING_MODEL)
     print("=" * 50)
     logger.info("Starting up DocuMind AI API...")
     # Initialize necessary folders on startup
@@ -98,6 +102,14 @@ async def debug_config():
         "env_path_derived": derived_env,
         "cwd": os.getcwd(),
         "pid": os.getpid()
+    }
+
+@app.get("/debug/embeddings")
+async def debug_embeddings():
+    return {
+        "provider": settings.EMBEDDING_PROVIDER,
+        "model": settings.EMBEDDING_MODEL,
+        "status": "working"
     }
 
 if __name__ == "__main__":

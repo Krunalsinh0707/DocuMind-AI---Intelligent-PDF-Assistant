@@ -19,3 +19,12 @@ def sanitize_filename(filename: str) -> str:
     # Remove any non-alphanumeric/dot/underscore/dash characters
     sanitized = re.sub(r"[^\w\.\-]", "_", base_name)
     return sanitized
+
+def calculate_file_hash(file_path: str) -> str:
+    """Calculates MD5 hash of a local file to prevent duplicate indexing."""
+    import hashlib
+    hash_md5 = hashlib.md5()
+    with open(file_path, "rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()

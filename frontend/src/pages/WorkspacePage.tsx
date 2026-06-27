@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 import { 
   Sparkles, 
   Send, 
@@ -10,21 +11,26 @@ import {
   FileText,
   ExternalLink,
   Trash2,
-  Bot
+  Bot,
+  CloudUpload
 } from 'lucide-react';
 import { api } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import { ChatSidebar } from '../components/ChatSidebar';
 import type { ChatSession } from '../components/ChatSidebar';
 import { UserMenu } from '../components/UserMenu';
+import { ThemeSwitcher } from '../components/ThemeSwitcher';
 import { SuggestedPrompts } from '../components/SuggestedPrompts';
 import { OnboardingHero } from '../components/OnboardingHero';
 import { ChatMessage } from '../components/ChatMessage';
 import type { Message } from '../components/ChatMessage';
 import { UploadDrawer } from '../components/UploadDrawer';
+import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from 'react-resizable-panels';
+import { PDFViewerSidebar } from '../components/PDFViewerSidebar';
 
 export default function WorkspacePage() {
   const { user } = useAuth();
+  const location = useLocation();
 
   // Sidebar / Chat Sessions States
   const [sessions, setSessions] = useState<ChatSession[]>([]);
@@ -50,7 +56,79 @@ export default function WorkspacePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [copiedMessageIdx, setCopiedMessageIdx] = useState<number | null>(null);
 
+  // PDF Viewer states
+  const [isPdfViewerOpen, setIsPdfViewerOpen] = useState(false);
+  const [activePdfUrl, setActivePdfUrl] = useState('');
+  const [activePdfName, setActivePdfName] = useState('');
+  const [pdfTargetPage, setPdfTargetPage] = useState<number | null>(null);
+
+  const handleOpenPdf = (docId: string, filename: string, page: number | null = null) => {
+    const url = api.downloadDocumentUrl(docId);
+    setActivePdfUrl(url);
+    setActivePdfName(filename);
+    setIsPdfViewerOpen(true);
+    if (page !== null) {
+      setPdfTargetPage(page);
+    }
+  };
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Full-page drag-and-drop state
+  const [isPageDragActive, setIsPageDragActive] = useState(false);
+  const pageDragCounter = useRef(0);
+
+  // Full-page drag handlers
+  const handlePageDragEnter = useCallback((e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    pageDragCounter.current++;
+    if (e.dataTransfer?.items && e.dataTransfer.items.length > 0) {
+      // Only show overlay if dragging files
+      const hasFiles = Array.from(e.dataTransfer.items).some(item => item.kind === 'file');
+      if (hasFiles) {
+        setIsPageDragActive(true);
+      }
+    }
+  }, []);
+
+  const handlePageDragLeave = useCallback((e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    pageDragCounter.current--;
+    if (pageDragCounter.current === 0) {
+      setIsPageDragActive(false);
+    }
+  }, []);
+
+  const handlePageDragOver = useCallback((e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
+  const handlePageDrop = useCallback(async (e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsPageDragActive(false);
+    pageDragCounter.current = 0;
+    if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
+      await handleUpload(e.dataTransfer.files);
+    }
+  }, []);
+
+  // Attach/detach global drag listeners
+  useEffect(() => {
+    window.addEventListener('dragenter', handlePageDragEnter);
+    window.addEventListener('dragleave', handlePageDragLeave);
+    window.addEventListener('dragover', handlePageDragOver);
+    window.addEventListener('drop', handlePageDrop);
+    return () => {
+      window.removeEventListener('dragenter', handlePageDragEnter);
+      window.removeEventListener('dragleave', handlePageDragLeave);
+      window.removeEventListener('dragover', handlePageDragOver);
+      window.removeEventListener('drop', handlePageDrop);
+    };
+  }, [handlePageDragEnter, handlePageDragLeave, handlePageDragOver, handlePageDrop]);
 
   // Initial Fetch on Mount and User Change
   useEffect(() => {
@@ -142,6 +220,34 @@ export default function WorkspacePage() {
     }
   };
 
+  const handleRenameSession = async (id: string, newTitle: string) => {
+    try {
+      await api.renameChatSession(id, newTitle);
+      setSessions((prev) =>
+        prev.map((s) => (s.id === id ? { ...s, title: newTitle } : s))
+      );
+    } catch (err) {
+      console.error('Error renaming session:', err);
+    }
+  };
+
+  const handlePinSession = async (id: string, isPinned: boolean) => {
+    try {
+      await api.pinChatSession(id, isPinned);
+      setSessions((prev) => {
+        const updated = prev.map((s) => (s.id === id ? { ...s, is_pinned: isPinned } : s));
+        return updated.sort((a, b) => {
+          const aPinned = a.is_pinned ? 1 : 0;
+          const bPinned = b.is_pinned ? 1 : 0;
+          if (aPinned !== bPinned) return bPinned - aPinned;
+          return 0;
+        });
+      });
+    } catch (err) {
+      console.error('Error pinning session:', err);
+    }
+  };
+
   // Process PDF uploads
   const handleUpload = async (files: FileList) => {
     setIsUploading(true);
@@ -214,6 +320,9 @@ export default function WorkspacePage() {
                 completedCount++;
               } else {
                 totalProgress += statusData.progress;
+                if (statusData.message) {
+                  setProcessingMessage(statusData.message);
+                }
               }
             } catch (pollErr) {
               console.error('Error polling status:', pollErr);
@@ -348,6 +457,16 @@ export default function WorkspacePage() {
     }
   };
 
+  // Watch for quick prompt redirection from the dashboard
+  useEffect(() => {
+    if (location.state?.initialPrompt && documents.length > 0 && activeSessionId && !isLoading) {
+      const prompt = location.state.initialPrompt;
+      // Clean up the location state so it doesn't fire repeatedly
+      window.history.replaceState({}, document.title);
+      handleChatSubmit(undefined, prompt);
+    }
+  }, [location.state, documents, activeSessionId, isLoading]);
+
   const handleCopyText = (text: string, index: number) => {
     navigator.clipboard.writeText(text);
     setCopiedMessageIdx(index);
@@ -407,13 +526,14 @@ export default function WorkspacePage() {
 
   return (
     <div className="workspace-container">
-      {/* Chat Sidebar Navigation */}
       <ChatSidebar
         sessions={sessions}
         activeSessionId={activeSessionId}
         onSelectSession={handleSelectSession}
         onNewSession={createNewSession}
         onDeleteSession={handleDeleteSession}
+        onRenameSession={handleRenameSession}
+        onPinSession={handlePinSession}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
         documentsCount={documents.length}
@@ -422,138 +542,204 @@ export default function WorkspacePage() {
 
       {/* Main Content Area */}
       <div className={`workspace-main-content ${isSidebarOpen ? 'sidebar-expanded' : 'sidebar-collapsed'}`}>
-        
-        {/* Workspace Top Header */}
-        <header className="workspace-header">
-          <div className="header-brand-box">
-            {!isSidebarOpen && (
-              <button 
-                type="button"
-                className="sidebar-trigger" 
-                onClick={() => setIsSidebarOpen(true)}
-                title="Open Sidebar"
-              >
-                <ChevronRight size={18} />
-              </button>
-            )}
-            <div className="header-brand-title">
-              <h2>DocuMind AI</h2>
-              <p>AI-Powered Document Intelligence</p>
-            </div>
-          </div>
-
-          <div className="header-center-info">
-            <button 
-              type="button"
-              className="kb-pill-btn" 
-              onClick={() => setIsDocManagerOpen(true)}
-              title="Manage Knowledge Base"
-            >
-              <Database size={13} className="text-indigo-400" />
-              <span>{documents.length} PDF{documents.length !== 1 ? 's' : ''}</span>
-            </button>
-          </div>
-
-          <div className="header-actions">
-            {/* Profile Dropdown */}
-            <UserMenu onOpenDocuments={() => setIsDocManagerOpen(true)} />
-          </div>
-        </header>
-
-        {/* Page Body: Onboarding vs Chat Conversation */}
-        <div className="workspace-scrollable-body">
-          {documents.length === 0 ? (
-            <OnboardingHero onTriggerUpload={() => setIsUploadDrawerOpen(true)} />
-          ) : (
-            <div className="workspace-chat-container">
-              {messages.length === 0 ? (
-                <div className="chat-empty-state">
-                  <div className="welcome-chat-hero">
-                    <Sparkles size={32} className="text-indigo-500 float-animation" />
-                    <h2>How can I assist your research today?</h2>
-                    <p>Ask queries, synthesize content, or generate insights from your indexed documents.</p>
-                  </div>
-                  
-                  {/* Suggested Quick Action Prompts */}
-                  <SuggestedPrompts onSelectPrompt={(p) => handleChatSubmit(undefined, p)} />
-                </div>
-              ) : (
-                <div className="chat-messages-scroller">
-                  {messages.map((msg, idx) => (
-                    <ChatMessage
-                      key={idx}
-                      message={msg}
-                      messageIndex={idx}
-                      onCopy={handleCopyText}
-                      onRegenerate={handleRegenerate}
-                      copied={copiedMessageIdx === idx}
-                    />
-                  ))}
-
-                  {/* Loading Typing Indicator */}
-                  {isLoading && (
-                    <div className="chat-message-row assistant typing">
-                      <div className="msg-avatar assistant">
-                        <Bot size={15} color="#ffffff" />
-                      </div>
-                      <div className="msg-body">
-                        <span className="msg-author-name">DocuMind AI</span>
-                        <div className="typing-indicator-box">
-                          <span className="typing-indicator-dot"></span>
-                          <span className="typing-indicator-dot"></span>
-                          <span className="typing-indicator-dot"></span>
-                          <span className="typing-indicator-text">Thinking...</span>
-                        </div>
-                      </div>
-                    </div>
+        <PanelGroup orientation="horizontal">
+          <Panel id="chat-panel" defaultSize={isPdfViewerOpen ? 60 : 100} minSize={30}>
+            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
+              {/* Workspace Top Header */}
+              <header className="workspace-header">
+                <div className="header-brand-box">
+                  {!isSidebarOpen && (
+                    <button 
+                      type="button"
+                      className="sidebar-trigger" 
+                      onClick={() => setIsSidebarOpen(true)}
+                      title="Open Sidebar"
+                    >
+                      <ChevronRight size={18} />
+                    </button>
                   )}
-                  <div ref={messagesEndRef} />
+                  <div className="header-brand-title">
+                    <h2>DocuMind AI</h2>
+                    <p>AI-Powered Document Intelligence</p>
+                  </div>
+                </div>
+
+                <div className="header-center-info">
+                  <button 
+                    type="button"
+                    className="kb-pill-btn" 
+                    onClick={() => setIsDocManagerOpen(true)}
+                    title="Manage Knowledge Base"
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', position: 'relative' }}
+                  >
+                    {documents.length > 0 && (
+                      <span className="pulse-dot" style={{ width: '6px', height: '6px', backgroundColor: 'var(--success-color)', borderRadius: '50%', display: 'inline-block', position: 'absolute', top: '2px', right: '2px', boxShadow: '0 0 8px var(--success-color)' }}></span>
+                    )}
+                    <Database size={13} style={{ color: 'var(--primary-color)' }} />
+                    <span>{documents.length} PDF{documents.length !== 1 ? 's' : ''} Loaded</span>
+                  </button>
+                </div>
+
+                <div className="header-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <ThemeSwitcher />
+                  {/* Profile Dropdown */}
+                  <UserMenu onOpenDocuments={() => setIsDocManagerOpen(true)} />
+                </div>
+              </header>
+
+              {/* Document Context top bar */}
+              {documents.length > 0 && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.5rem', background: 'var(--card-bg)', borderBottom: '1px solid var(--border-color)', overflowX: 'auto', flexShrink: 0 }}>
+                  <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>Active Context:</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', overflow: 'hidden' }}>
+                    {documents.slice(0, 3).map(doc => (
+                      <div key={doc.id} style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', padding: '0.25rem 0.6rem', background: 'var(--bg-color)', border: '1px solid var(--border-color)', borderRadius: '6px', fontSize: '0.75rem', color: 'var(--text-primary)', fontWeight: 500, whiteSpace: 'nowrap' }}>
+                        <FileText size={12} style={{ color: 'var(--primary-color)' }} />
+                        <span style={{ maxWidth: '120px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{doc.filename}</span>
+                        <button 
+                          type="button"
+                          onClick={() => handleOpenPdf(doc.id, doc.filename)}
+                          style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2px', color: 'var(--text-secondary)', transition: 'color 0.2s' }}
+                          title="Open PDF in Viewer"
+                        >
+                          <ExternalLink size={10} style={{ marginLeft: '4px' }} />
+                        </button>
+                      </div>
+                    ))}
+                    {documents.length > 3 && (
+                      <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', fontWeight: 600, whiteSpace: 'nowrap' }}>+{documents.length - 3} more</span>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Page Body: Onboarding vs Chat Conversation */}
+              <div className="workspace-scrollable-body" style={{ flexGrow: 1, overflowY: 'auto' }}>
+                {documents.length === 0 ? (
+                  <OnboardingHero
+                    onTriggerUpload={() => setIsUploadDrawerOpen(true)}
+                    onUpload={handleUpload}
+                    isUploading={isUploading}
+                    uploadProgress={uploadProgress}
+                    processingMessage={processingMessage}
+                    uploadStatus={uploadStatus}
+                  />
+                ) : (
+                  <div className="workspace-chat-container">
+                    {messages.length === 0 ? (
+                      <div className="chat-empty-state">
+                        <div className="welcome-chat-hero">
+                          <Sparkles size={32} className="text-indigo-500 float-animation" />
+                          <h2>How can I assist your research today?</h2>
+                          <p>Ask queries, synthesize content, or generate insights from your indexed documents.</p>
+                        </div>
+                        
+                        {/* Suggested Quick Action Prompts */}
+                        <SuggestedPrompts onSelectPrompt={(p) => handleChatSubmit(undefined, p)} />
+                      </div>
+                    ) : (
+                      <div className="chat-messages-scroller">
+                        {messages.map((msg, idx) => (
+                          <ChatMessage
+                            key={idx}
+                            message={msg}
+                            messageIndex={idx}
+                            onCopy={handleCopyText}
+                            onRegenerate={handleRegenerate}
+                            copied={copiedMessageIdx === idx}
+                            onSourceClick={(page, sourceName) => {
+                              const matchedDoc = documents.find(d => d.filename === sourceName);
+                              if (matchedDoc) {
+                                handleOpenPdf(matchedDoc.id, matchedDoc.filename, page);
+                              } else if (documents.length > 0) {
+                                handleOpenPdf(documents[0].id, documents[0].filename, page);
+                              }
+                            }}
+                          />
+                        ))}
+
+                        {/* Loading Typing Indicator */}
+                        {isLoading && (
+                          <div className="chat-message-row assistant typing">
+                            <div className="msg-avatar assistant">
+                              <Bot size={15} color="#ffffff" />
+                            </div>
+                            <div className="msg-body">
+                              <span className="msg-author-name">DocuMind AI</span>
+                              <div className="typing-indicator-box">
+                                <span className="typing-indicator-dot"></span>
+                                <span className="typing-indicator-dot"></span>
+                                <span className="typing-indicator-dot"></span>
+                                <span className="typing-indicator-text">Thinking...</span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                        <div ref={messagesEndRef} />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Chat Input Bar */}
+              {documents.length > 0 && (
+                <div className="workspace-input-container">
+                  <form onSubmit={(e) => handleChatSubmit(e)} className="workspace-form">
+                    <textarea
+                      className="prompt-textarea"
+                      placeholder="Ask anything about your indexed documents..."
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      disabled={isLoading}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          handleChatSubmit(e);
+                        }
+                      }}
+                      rows={2}
+                    />
+                    <button 
+                      type="submit" 
+                      className="prompt-submit-btn" 
+                      disabled={!input.trim() || isLoading}
+                      title="Send message"
+                    >
+                      <Send size={15} />
+                    </button>
+                  </form>
+                  <div className="input-info-footer">
+                    <span>Press Enter ↵ to send • Shift + Enter for new line</span>
+                    <span>•</span>
+                    <button 
+                      type="button" 
+                      className="footer-upload-link" 
+                      onClick={() => setIsUploadDrawerOpen(true)}
+                    >
+                      Upload PDF
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
-          )}
-        </div>
+          </Panel>
 
-        {/* Chat Input Bar */}
-        {documents.length > 0 && (
-          <div className="workspace-input-container">
-            <form onSubmit={(e) => handleChatSubmit(e)} className="workspace-form">
-              <textarea
-                className="prompt-textarea"
-                placeholder="Ask anything about your indexed documents..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                disabled={isLoading}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleChatSubmit(e);
-                  }
-                }}
-                rows={1}
-              />
-              <button 
-                type="submit" 
-                className="prompt-submit-btn" 
-                disabled={!input.trim() || isLoading}
-                title="Send message"
-              >
-                <Send size={15} />
-              </button>
-            </form>
-            <div className="input-info-footer">
-              <span>Secure isolated workspace</span>
-              <span>•</span>
-              <button 
-                type="button" 
-                className="footer-upload-link" 
-                onClick={() => setIsUploadDrawerOpen(true)}
-              >
-                Upload PDF
-              </button>
-            </div>
-          </div>
-        )}
+          {isPdfViewerOpen && (
+            <>
+              <PanelResizeHandle className="panel-resize-handle" />
+              <Panel id="pdf-panel" defaultSize={40} minSize={25}>
+                <PDFViewerSidebar
+                  url={activePdfUrl}
+                  filename={activePdfName}
+                  onClose={() => setIsPdfViewerOpen(false)}
+                  targetPage={pdfTargetPage}
+                  onTargetPageHandled={() => setPdfTargetPage(null)}
+                />
+              </Panel>
+            </>
+          )}
+        </PanelGroup>
       </div>
 
       {/* Floating Action Button (FAB) for Upload if documents exist and sidebar collapsed */}
@@ -574,7 +760,7 @@ export default function WorkspacePage() {
           <div className="doc-manager-container" onClick={(e) => e.stopPropagation()}>
             <div className="doc-manager-header">
               <div className="title-box">
-                <FolderOpen size={18} className="text-indigo-400" />
+                <FolderOpen size={18} style={{ color: 'var(--primary-color)' }} />
                 <h3>Knowledge Base</h3>
               </div>
               <button className="close-btn" onClick={() => setIsDocManagerOpen(false)}>
@@ -609,7 +795,7 @@ export default function WorkspacePage() {
                 <h4>Indexed Documents ({documents.length})</h4>
                 {documents.length === 0 ? (
                   <div className="empty-docs-state">
-                    <FileText size={32} className="text-slate-600 mb-2" />
+                    <FileText size={32} style={{ color: 'var(--text-secondary)', marginBottom: '0.5rem' }} />
                     <p>No documents indexed yet.</p>
                   </div>
                 ) : (
@@ -622,7 +808,7 @@ export default function WorkspacePage() {
                       return (
                         <div key={doc.id} className="doc-manager-item">
                           <div className="doc-item-details">
-                            <FileText size={16} className="text-indigo-400" />
+                            <FileText size={16} style={{ color: 'var(--primary-color)' }} />
                             <div className="meta">
                               <span className="name" title={doc.filename}>{doc.filename}</span>
                               <span className="size">{sizeFormatted} • {doc.chunk_count || 0} chunks</span>
@@ -660,6 +846,19 @@ export default function WorkspacePage() {
                 )}
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Full-Page Drag Overlay */}
+      {isPageDragActive && !isUploading && (
+        <div className="page-drag-overlay">
+          <div className="page-drag-content">
+            <div className="page-drag-icon-ring">
+              <CloudUpload size={48} />
+            </div>
+            <h2>Drop your PDFs here</h2>
+            <p>Files will begin uploading and processing automatically</p>
           </div>
         </div>
       )}

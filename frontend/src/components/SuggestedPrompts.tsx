@@ -9,32 +9,32 @@ const prompts = [
   {
     text: "Summarize this document",
     desc: "Get a concise overview of key points",
-    icon: <FileText size={16} className="prompt-icon text-indigo-400" />
+    icon: <FileText size={16} className="prompt-icon" style={{ color: 'var(--primary-color)' }} />
   },
   {
     text: "What are the key insights?",
     desc: "Discover core takeaways and conclusions",
-    icon: <Lightbulb size={16} className="prompt-icon text-amber-400" />
+    icon: <Lightbulb size={16} className="prompt-icon" style={{ color: 'var(--warning-color)' }} />
   },
   {
     text: "Create study notes",
     desc: "Generate structured study aids",
-    icon: <BookOpen size={16} className="prompt-icon text-emerald-400" />
+    icon: <BookOpen size={16} className="prompt-icon" style={{ color: 'var(--success-color)' }} />
   },
   {
     text: "Generate interview questions",
     desc: "Prepare questions based on document content",
-    icon: <HelpCircle size={16} className="prompt-icon text-purple-400" />
+    icon: <HelpCircle size={16} className="prompt-icon" style={{ color: 'var(--accent-color)' }} />
   },
   {
     text: "Extract important topics",
     desc: "List and explain main subject matters",
-    icon: <Sparkles size={16} className="prompt-icon text-pink-400" />
+    icon: <Sparkles size={16} className="prompt-icon" style={{ color: '#ec4899' }} />
   },
   {
     text: "Extract facts & figures",
     desc: "Pull out statistics and key assertions",
-    icon: <Clipboard size={16} className="prompt-icon text-blue-400" />
+    icon: <Clipboard size={16} className="prompt-icon" style={{ color: '#3b82f6' }} />
   }
 ];
 

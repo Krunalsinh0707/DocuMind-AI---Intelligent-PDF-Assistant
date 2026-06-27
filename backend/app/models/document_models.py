@@ -12,6 +12,9 @@ class DocumentMetadata(BaseModel):
     chunk_ids: List[str] = Field(default=[], description="Internal IDs of chunks in FAISS")
     user_id: Optional[str] = Field(None, description="Owner user ID")
     status: str = Field(default="indexed", description="Indexing status")
+    pages: int = Field(default=0, description="Number of pages in the PDF")
+    questions_asked: int = Field(default=0, description="Number of queries asked about the document")
+    file_hash: Optional[str] = Field(None, description="MD5 hash of the PDF file to prevent duplicate processing")
 
 class DocumentListResponse(BaseModel):
     """Response schema for listing documents."""

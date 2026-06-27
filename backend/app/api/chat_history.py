@@ -15,6 +15,12 @@ class CreateSessionRequest(BaseModel):
     title: Optional[str] = Field("New Conversation", description="Title of the chat session")
     document_ids: Optional[List[str]] = Field(default=[], description="List of document IDs bound to this chat")
 
+class RenameSessionRequest(BaseModel):
+    title: str = Field(..., min_length=1, description="New title of the chat session")
+
+class PinSessionRequest(BaseModel):
+    is_pinned: bool = Field(..., description="Pin or unpin status")
+
 class ChatSessionResponse(BaseModel):
     id: str = Field(..., alias="_id_str")
     title: str
@@ -45,7 +51,8 @@ async def list_chat_sessions(
         return []
         
     try:
-        cursor = db.chat_sessions.find({"user_id": current_user["id"]}).sort("updated_at", -1)
+        # Sort pinned sessions first, then updated_at descending
+        cursor = db.chat_sessions.find({"user_id": current_user["id"]}).sort([("is_pinned", -1), ("updated_at", -1)])
         sessions = []
         for s in cursor:
             s["id"] = s.get("id") or str(s.get("_id"))
@@ -55,7 +62,8 @@ async def list_chat_sessions(
                 "title": s.get("title", "New Conversation"),
                 "document_ids": s.get("document_ids", []),
                 "created_at": s.get("created_at"),
-                "updated_at": s.get("updated_at")
+                "updated_at": s.get("updated_at"),
+                "is_pinned": s.get("is_pinned", False)
             })
         return sessions
     except Exception as e:
@@ -186,4 +194,78 @@ async def get_session_messages(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to retrieve message logs."
+        )
+
+@router.put(
+    "/chat-sessions/{session_id}/rename",
+    summary="Rename a chat session",
+    description="Updates the title of the chat session if it belongs to the current user."
+)
+async def rename_chat_session(
+    session_id: str,
+    request: RenameSessionRequest,
+    current_user: dict = Depends(get_current_user),
+    db: MongoDBManager = Depends(get_metadata_db)
+):
+    if db.chat_sessions is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Database service unavailable."
+        )
+    try:
+        session = db.chat_sessions.find_one({"id": session_id, "user_id": current_user["id"]})
+        if not session:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Chat session not found or access denied."
+            )
+        db.chat_sessions.update_one(
+            {"id": session_id},
+            {"$set": {"title": request.title, "updated_at": datetime.utcnow().isoformat()}}
+        )
+        return {"message": "Chat session renamed successfully.", "title": request.title}
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        logger.error(f"Failed to rename chat session: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to rename chat session."
+        )
+
+@router.put(
+    "/chat-sessions/{session_id}/pin",
+    summary="Pin or unpin a chat session",
+    description="Pins or unpins the chat session."
+)
+async def pin_chat_session(
+    session_id: str,
+    request: PinSessionRequest,
+    current_user: dict = Depends(get_current_user),
+    db: MongoDBManager = Depends(get_metadata_db)
+):
+    if db.chat_sessions is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Database service unavailable."
+        )
+    try:
+        session = db.chat_sessions.find_one({"id": session_id, "user_id": current_user["id"]})
+        if not session:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Chat session not found or access denied."
+            )
+        db.chat_sessions.update_one(
+            {"id": session_id},
+            {"$set": {"is_pinned": request.is_pinned}}
+        )
+        return {"message": "Chat session pin status updated successfully.", "is_pinned": request.is_pinned}
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        logger.error(f"Failed to pin chat session: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to pin chat session."
         )

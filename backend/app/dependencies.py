@@ -43,6 +43,10 @@ async def get_current_user(
         
     uid = user_info["uid"]
     
+    auth_provider = "Google OAuth"
+    if token and len(token) == 28 and "." not in token:
+        auth_provider = "Mock Bypass (Dev)"
+        
     # Save user to DB if not exists
     if db.users is not None:
         try:
@@ -57,14 +61,19 @@ async def get_current_user(
                     "role": user_info.get("role", "user"),
                     "created_at": datetime.utcnow().isoformat(),
                     "last_login": datetime.utcnow().isoformat(),
+                    "auth_provider": auth_provider,
                     "is_active": True
                 }
                 db.users.insert_one(user_doc)
             else:
                 db.users.update_one(
                     {"id": uid},
-                    {"$set": {"last_login": datetime.utcnow().isoformat()}}
+                    {"$set": {
+                        "last_login": datetime.utcnow().isoformat(),
+                        "auth_provider": auth_provider
+                    }}
                 )
+                user_doc = db.users.find_one({"id": uid})
             return user_doc
         except Exception as e:
             print(f"Error syncing user database details: {str(e)}")
@@ -77,12 +86,14 @@ async def get_current_user(
         "role": "user"
     }
 
+from app.services.vector_store import get_vector_store_for_user
+
 def get_vector_store_service(
     current_user = Depends(get_current_user),
     embeddings = Depends(get_embedding_service)
 ) -> VectorStoreService:
     """Dependency to retrieve a user-scoped FAISS vector store instance."""
-    return VectorStoreService(embeddings, user_id=current_user["id"])
+    return get_vector_store_for_user(embeddings, user_id=current_user["id"])
 
 def get_rag_chain_service(
     vector_store = Depends(get_vector_store_service),
