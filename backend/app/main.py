@@ -35,6 +35,10 @@ app.include_router(reset.router, tags=["Reset"])
 async def startup_event():
     print("=" * 50)
     print("LLM PROVIDER:", settings.LLM_PROVIDER)
+    print("ACTIVE MODEL:", settings.active_llm_model)
+    print("OPENROUTER MODEL:", settings.OPENROUTER_MODEL)
+    print("OPENROUTER BASE URL:", settings.OPENROUTER_BASE_URL)
+    print("OPENROUTER API KEY CONFIGURED:", bool(settings.OPENROUTER_API_KEY))
     print("GEMINI MODEL:", settings.GEMINI_MODEL)
     print("OPENAI MODEL:", settings.OPENAI_MODEL)
     print("Embedding Provider:", settings.EMBEDDING_PROVIDER)
@@ -97,6 +101,10 @@ async def debug_config():
     derived_env = os.path.abspath(derived_env)
     return {
         "provider": settings.LLM_PROVIDER,
+        "active_model": settings.active_llm_model,
+        "openrouter_model": settings.OPENROUTER_MODEL,
+        "openrouter_base_url": settings.OPENROUTER_BASE_URL,
+        "openrouter_key_configured": bool(settings.OPENROUTER_API_KEY),
         "gemini_model": settings.GEMINI_MODEL,
         "openai_model": settings.OPENAI_MODEL,
         "env_path_derived": derived_env,

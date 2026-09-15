@@ -60,15 +60,15 @@ export default function LoginPage() {
 
         {/* Feature Badges Row */}
         <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}>
-          <div className="kb-pill-btn" style={{ cursor: 'default', background: 'rgba(99, 102, 241, 0.08)', borderColor: 'rgba(99, 102, 241, 0.2)', padding: '0.5rem 1rem' }}>
+          <div className="kb-pill-btn" style={{ cursor: 'default', background: 'var(--soft-accent-bg)', borderColor: 'var(--border-subtle)', padding: '0.5rem 1rem' }}>
             <Database size={14} className="feature-icon" style={{ color: 'var(--primary-color)' }} />
             <span>Isolated Workspaces</span>
           </div>
-          <div className="kb-pill-btn" style={{ cursor: 'default', background: 'rgba(139, 92, 246, 0.08)', borderColor: 'rgba(139, 92, 246, 0.2)', padding: '0.5rem 1rem' }}>
+          <div className="kb-pill-btn" style={{ cursor: 'default', background: 'var(--soft-accent-bg)', borderColor: 'var(--border-subtle)', padding: '0.5rem 1rem' }}>
             <ShieldCheck size={14} className="feature-icon" style={{ color: 'var(--accent-color)' }} />
             <span>Secure PDF Storage</span>
           </div>
-          <div className="kb-pill-btn" style={{ cursor: 'default', background: 'rgba(16, 185, 129, 0.08)', borderColor: 'rgba(16, 185, 129, 0.2)', padding: '0.5rem 1rem' }}>
+          <div className="kb-pill-btn" style={{ cursor: 'default', background: 'var(--soft-accent-bg)', borderColor: 'var(--border-subtle)', padding: '0.5rem 1rem' }}>
             <Zap size={14} className="feature-icon" style={{ color: 'var(--success-color)' }} />
             <span>Semantic Vector Search</span>
           </div>

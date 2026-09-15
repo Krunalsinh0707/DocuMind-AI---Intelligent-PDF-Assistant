@@ -5,13 +5,16 @@ from pydantic import Field, AliasChoices
 
 class Settings(BaseSettings):
     # API Providers and Keys
-    LLM_PROVIDER: str = Field(default="gemini", description="llm provider: openai or gemini")
+    LLM_PROVIDER: str = Field(default="openrouter", description="llm provider: openrouter, openai, or gemini")
     EMBEDDING_PROVIDER: str = Field(default="huggingface", description="embedding provider: openai, gemini or huggingface")
     EMBEDDING_MODEL: str = Field(default="sentence-transformers/all-MiniLM-L6-v2", description="Embedding model name")
     OPENAI_API_KEY: str = Field(default="", description="OpenAI API key")
     GOOGLE_API_KEY: str = Field(default="", description="Google API key for Gemini")
+    OPENROUTER_API_KEY: str = Field(default="", description="OpenRouter API key")
+    OPENROUTER_BASE_URL: str = Field(default="https://openrouter.ai/api/v1", description="OpenRouter base URL")
     
     # Model Configurations
+    OPENROUTER_MODEL: str = Field(default="nex-agi/nex-n2.5-mini:free", validation_alias=AliasChoices("OPENROUTER_MODEL", "OPENROUTER_LLM_MODEL"))
     OPENAI_MODEL: str = Field(default="gpt-4o-mini", validation_alias=AliasChoices("OPENAI_MODEL", "OPENAI_LLM_MODEL"))
     OPENAI_EMBEDDING_MODEL: str = "text-embedding-3-small"
     
@@ -20,9 +23,9 @@ class Settings(BaseSettings):
     HUGGINGFACE_EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
     
     # RAG parameters
-    CHUNK_SIZE: int = 2000
-    CHUNK_OVERLAP: int = 100
-    TOP_K: int = 5
+    CHUNK_SIZE: int = 1000
+    CHUNK_OVERLAP: int = 150
+    TOP_K: int = 4
     
     # Directory paths (relative to app directory or project root)
     UPLOAD_DIR: str = "uploads"
@@ -55,9 +58,14 @@ class Settings(BaseSettings):
  
     @property
     def active_llm_model(self) -> str:
-        if self.LLM_PROVIDER.lower() == "gemini":
+        provider = self.LLM_PROVIDER.lower()
+        if provider == "openrouter":
+            return self.OPENROUTER_MODEL
+        elif provider == "gemini":
             return self.GEMINI_MODEL
-        return self.OPENAI_MODEL
+        elif provider == "openai":
+            return self.OPENAI_MODEL
+        return self.OPENROUTER_MODEL
  
     @property
     def active_embedding_model(self) -> str:

@@ -181,7 +181,7 @@ export const OnboardingHero: React.FC<OnboardingHeroProps> = ({
         </h4>
         <div className="hero-steps" style={{ display: 'grid', gridTemplateColumns: '1fr 20px 1fr 20px 1fr', alignItems: 'center', gap: '0.5rem' }}>
           <div className="hero-step">
-            <div className="step-icon-wrapper" style={{ width: '48px', height: '48px', backgroundColor: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.15)', color: '#818cf8' }}>
+            <div className="step-icon-wrapper" style={{ width: '48px', height: '48px', backgroundColor: 'var(--soft-accent-bg)', border: '1px solid var(--border-subtle)', color: 'var(--primary-color)' }}>
               <FileText size={20} />
             </div>
             <span className="step-text" style={{ color: 'var(--text-primary)', marginTop: '0.25rem' }}>1. Drop PDFs</span>
@@ -191,7 +191,7 @@ export const OnboardingHero: React.FC<OnboardingHeroProps> = ({
             <ArrowRight size={16} />
           </div>
           <div className="hero-step">
-            <div className="step-icon-wrapper" style={{ width: '48px', height: '48px', backgroundColor: 'rgba(139,92,246,0.06)', border: '1px solid rgba(139,92,246,0.15)', color: '#a78bfa' }}>
+            <div className="step-icon-wrapper" style={{ width: '48px', height: '48px', backgroundColor: 'var(--soft-accent-bg)', border: '1px solid var(--border-subtle)', color: 'var(--primary-color)' }}>
               <Send size={20} />
             </div>
             <span className="step-text" style={{ color: 'var(--text-primary)', marginTop: '0.25rem' }}>2. Ask Questions</span>
@@ -201,7 +201,7 @@ export const OnboardingHero: React.FC<OnboardingHeroProps> = ({
             <ArrowRight size={16} />
           </div>
           <div className="hero-step">
-            <div className="step-icon-wrapper" style={{ width: '48px', height: '48px', backgroundColor: 'rgba(236,72,153,0.06)', border: '1px solid rgba(236,72,153,0.15)', color: '#f472b6' }}>
+            <div className="step-icon-wrapper" style={{ width: '48px', height: '48px', backgroundColor: 'var(--soft-accent-bg)', border: '1px solid var(--border-subtle)', color: 'var(--primary-color)' }}>
               <Sparkles size={20} />
             </div>
             <span className="step-text" style={{ color: 'var(--text-primary)', marginTop: '0.25rem' }}>3. Get Insights</span>

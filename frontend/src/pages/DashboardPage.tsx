@@ -192,7 +192,7 @@ export default function DashboardPage() {
           <div className="premium-stat-card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Documents Uploaded</span>
-              <div className="stat-icon-wrapper" style={{ backgroundColor: 'rgba(99, 102, 241, 0.08)' }}>
+              <div className="stat-icon-wrapper" style={{ backgroundColor: 'var(--soft-accent-bg)' }}>
                 <FileText size={18} style={{ color: 'var(--primary-color)' }} />
               </div>
             </div>
@@ -204,7 +204,7 @@ export default function DashboardPage() {
           <div className="premium-stat-card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Total Chats</span>
-              <div className="stat-icon-wrapper" style={{ backgroundColor: 'rgba(139, 92, 246, 0.08)' }}>
+              <div className="stat-icon-wrapper" style={{ backgroundColor: 'var(--soft-accent-bg)' }}>
                 <MessageSquare size={18} style={{ color: 'var(--accent-color)' }} />
               </div>
             </div>
@@ -216,7 +216,7 @@ export default function DashboardPage() {
           <div className="premium-stat-card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Questions Asked</span>
-              <div className="stat-icon-wrapper" style={{ backgroundColor: 'rgba(245, 158, 11, 0.08)' }}>
+              <div className="stat-icon-wrapper" style={{ backgroundColor: 'var(--soft-accent-bg)' }}>
                 <History size={18} style={{ color: 'var(--warning-color)' }} />
               </div>
             </div>
@@ -228,7 +228,7 @@ export default function DashboardPage() {
           <div className="premium-stat-card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Storage Used</span>
-              <div className="stat-icon-wrapper" style={{ backgroundColor: 'rgba(16, 185, 129, 0.08)' }}>
+              <div className="stat-icon-wrapper" style={{ backgroundColor: 'var(--soft-accent-bg)' }}>
                 <HardDrive size={18} style={{ color: 'var(--success-color)' }} />
               </div>
             </div>

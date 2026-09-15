@@ -278,7 +278,7 @@ export default function DocumentsPage() {
             </div>
           )}
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', border: '1px solid rgba(99, 102, 241, 0.2)', backgroundColor: 'var(--user-bubble-bg)', padding: '1rem', borderRadius: '8px', marginTop: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', border: '1px solid var(--border-subtle)', backgroundColor: 'var(--user-bubble-bg)', padding: '1rem', borderRadius: '8px', marginTop: '1.5rem' }}>
             <ShieldAlert size={18} style={{ color: 'var(--primary-color)', flexShrink: 0 }} />
             <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
               Reindexing a document deletes its chunks from FAISS vector space and parses them again. Use this if queries about the document yield incorrect references or if database configuration changed.
